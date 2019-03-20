@@ -236,9 +236,9 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\favicon.ico" />
-    <Content Include="fonts\font-awesome\font-awesome.css" />
-    <Content Include="fonts\font-awesome\font-awesome.min.css" />
-    <Content Include="fonts\font-awesome\fontawesome-webfont.svg">
+    <Content Include="fonts\font-awesome.css" />
+    <Content Include="fonts\font-awesome.min.css" />
+    <Content Include="fonts\fontawesome-webfont.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="fonts\glyphicons-halflings-regular.svg">
@@ -4131,20 +4131,20 @@
     <Content Include="Scripts\adminlte\plugins\input-mask\phone-codes\phone-codes.json" />
     <Content Include="Content\adminlte\css\adminlte.css.map" />
     <Content Include="Content\adminlte\css\adminlte.min.css.map" />
-    <Content Include="fonts\font-awesome\font-awesome.css.map" />
-    <Content Include="fonts\font-awesome\fontawesome-webfont.eot">
+    <Content Include="fonts\font-awesome.css.map" />
+    <Content Include="fonts\fontawesome-webfont.eot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="fonts\font-awesome\fontawesome-webfont.ttf">
+    <Content Include="fonts\fontawesome-webfont.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="fonts\font-awesome\fontawesome-webfont.woff">
+    <Content Include="fonts\fontawesome-webfont.woff">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="fonts\font-awesome\fontawesome-webfont.woff2">
+    <Content Include="fonts\fontawesome-webfont.woff2">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="fonts\font-awesome\FontAwesome.otf">
+    <Content Include="fonts\FontAwesome.otf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
