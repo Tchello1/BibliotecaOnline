@@ -1,0 +1,88 @@
+﻿@model BibliotecaOnline.ViewModel.PessoaViewModel
+
+@{
+    ViewBag.Title = "PageProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <br />
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Cadastros</a></li>
+            <li><a href="#">Usuários</a></li>
+            <li class="active">Detalhes</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Profile Image -->
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle" src="~/Content/adminlte/img/user4-128x128.jpg" alt="User profile picture">
+                        <h3 class="profile-username text-center">@Html.DisplayFor(model => model.Nome)</h3>
+                        <p class="text-muted text-center">
+                            @switch (Model.Tipo)
+                            {
+                                case (BibliotecaOnline.Models.Enum.TipoPessoaEnum)1:
+                                    <text>@Html.Raw("Administrador")</text>
+                                    break;
+                                case (BibliotecaOnline.Models.Enum.TipoPessoaEnum)2:
+                                    <text>@Html.Raw("Colaborador")</text>
+                                    break;
+                                case (BibliotecaOnline.Models.Enum.TipoPessoaEnum)3:
+                                    <text> @Html.Raw("Usuario")</text>
+                                    break;
+                            }
+                        </p>
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b> @Html.DisplayNameFor(model => model.Email)</b> <a class="pull-right">  @Html.DisplayFor(model => model.Email)</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b> @Html.DisplayNameFor(model => model.Matricula)</b> <a class="pull-right">  @Html.DisplayFor(model => model.Matricula)</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b> @Html.DisplayNameFor(model => model.Cidade)</b> <a class="pull-right">
+                                    @Html.DisplayFor(model => model.Cidade) /  @Html.DisplayFor(model => model.UF)
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b> @Html.DisplayNameFor(model => model.Status)</b> <a class="pull-right">
+                                    @switch (Model.Status)
+                                    {
+                                        case (BibliotecaOnline.Models.Enum.PessoaStatusEnum)0:
+                                            <text>@Html.Raw("Inativo")</text>
+                                            break;
+                                        case (BibliotecaOnline.Models.Enum.PessoaStatusEnum)1:
+                                            <text>@Html.Raw("Ativo")</text>
+                                            break;
+                                        case (BibliotecaOnline.Models.Enum.PessoaStatusEnum)2:
+                                            <text> @Html.Raw("Suspenso")</text>
+                                            break;
+                                    }
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="box-footer">
+                            <a href="@Html.Raw(@Url.Action("Edit", "Edit", new { id = Model.Id}))" class="btn btn-primary pull-right">Editar</a>
+                            <a href="@Url.Action("Index", "Usuarios")" class="btn btn-default">Voltar</a>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id, @class = "btn btn-primary btn-block" }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
