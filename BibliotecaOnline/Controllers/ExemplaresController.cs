@@ -1,4 +1,5 @@
 ﻿using BibliotecaOnline.Models;
+using BibliotecaOnline.Models.ViewModel;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -15,7 +16,20 @@ namespace BibliotecaOnline.Controllers
         // GET: Exemplares
         public ActionResult Index()
         {
-            IQueryable<LivroExemplar> exemplares = db.Exemplares.Include(l => l.Livros);
+
+            IQueryable<LivroExemplaresViewModel> exemplares = (from l in db.Exemplares.Include(l => l.Livros)
+                                                          join c in db.Cidades on l.Campos equals c.Codigo
+                                                          select new LivroExemplaresViewModel
+                                                          {
+                                                              Id = l.Id,
+                                                              Titulo = l.Livros.Titulo,
+                                                              Autor = l.Livros.Autor,
+                                                              CodigoDeBarras = l.CodigoDeBarras,
+                                                              Estante = l.Estante,
+                                                              Setor = l.Setor,
+                                                              Campos = c.Nome + " - " + c.UF
+                                                          });
+
             return View(exemplares.ToList());
         }
 
@@ -139,9 +153,9 @@ namespace BibliotecaOnline.Controllers
         [HttpPost]
         public JsonResult AutoCompleteCampos(string campos)
         {
-            var result = db.Cidades.Where(x => x.Nome.Contains(campos)).OrderBy(x => x.Nome).Select(x => new
+            var result = db.Cidades.Where(x => x.Nome.Contains(campos) || x.Codigo == campos).OrderBy(x => x.Nome).Select(x => new
             {
-                Nome = x.Nome,
+                Nome = x.Nome + " - " + x.UF,
                 Id = x.Codigo
             }).ToList();
 

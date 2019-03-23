@@ -26,6 +26,43 @@
             allowClear: true
         });
 
+        @*$.ajax ({
+            url: '@Url.Action("AutoCompleteCampos", "Exemplares",new {campos = Model.Campos })',
+            dataType: 'json',
+            type: 'POST',
+            delay: 250,
+            processResults: function (data, search) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            id: item.Id,
+                            text: item.Nome,
+                        }
+                    }),
+                };
+            }
+        });*@
+
+
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AutoCompleteCampos", "Exemplares",new {campos = Model.Campos })',
+        }).then(function (data) {
+            var option;
+            results: $.map(data, function (item) {
+                option = new Option(item.Nome, item.Id, true, true);
+            });
+
+            $("#Campos").append(option).trigger('change');
+
+            $("#Campos").trigger({
+                type: 'select2:select',
+                params: {
+                    data: data
+                }
+            });
+        });
 
         $("#Campos").select2({
         ajax: {
@@ -55,9 +92,12 @@
           return item.text;
         },
         escapeMarkup: function (markup) { return markup; },
-        minimumInputLength: 3,
+        minimumInputLength: 3
+        });
 
-});
+
+
+
     });
 </script>
 

@@ -33,11 +33,11 @@ namespace BibliotecaOnline.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        CodigoDeBarras = c.String(nullable: false, maxLength: 200, unicode: false),
+                        CodigoDeBarras = c.String(maxLength: 200, unicode: false),
                         Estante = c.String(maxLength: 200, unicode: false),
                         Setor = c.String(maxLength: 200, unicode: false),
                         Campos = c.String(nullable: false, maxLength: 200, unicode: false),
-                        Quantidade = c.Int(nullable: false),
+                        Quantidade = c.Int(),
                         Status = c.Int(nullable: false),
                         LivroId = c.Int(nullable: false),
                     })

@@ -25,6 +25,38 @@
             placeholder: "Selecione",
             allowClear: true
         });
+
+     $("#Campos").select2({
+        ajax: {
+           url: '@Url.Action("AutoCompleteCampos", "Exemplares")',
+            dataType: 'json',
+            type: 'POST',
+            delay: 250,
+            data: function (params) {
+                return {
+                    campos: params.term,
+                };
+            },
+            processResults: function (data, search) {
+                return {
+                    results: $.map(data, function (item) {
+                      return {
+                        id: item.Id ,
+                          text: item.Nome,
+                          value: true
+                      }
+                   }),
+               };
+            },
+            cache: true
+        },
+        templateResult: function (item) {
+          if (item.loading) return item.text;
+          return item.text;
+        },
+        escapeMarkup: function (markup) { return markup; },
+        minimumInputLength: 3
+});
     });
 
 </script>
@@ -65,7 +97,7 @@
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Campos, htmlAttributes: new { @class = "" })
-                                @Html.EditorFor(model => model.Campos, new { htmlAttributes = new { @class = "form-control", @placeholder = "Campos", @readonly  = true } })
+                                <select id="Campos" name="Campos" class="form-control select2"></select>
                                 @Html.ValidationMessageFor(model => model.Campos, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">

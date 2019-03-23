@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BibliotecaOnline.Models.LivroExemplar>
+﻿@model IEnumerable<BibliotecaOnline.Models.ViewModel.LivroExemplaresViewModel>
 @{
     ViewBag.Title = "Exemplares";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,7 +32,7 @@
                         <tbody>
                             <tr>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Livros.Titulo)
+                                    @Html.DisplayNameFor(model => model.Titulo)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.CodigoDeBarras)
@@ -52,7 +52,7 @@
                             {
                             <tr>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Livros.Titulo)
+                                    @Html.DisplayFor(modelItem => item.Titulo)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CodigoDeBarras)

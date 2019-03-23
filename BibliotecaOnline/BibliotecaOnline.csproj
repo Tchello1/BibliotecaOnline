@@ -140,17 +140,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HTMLHelperExtensions.cs" />
-    <Compile Include="Migrations\201903230501254_Initial.cs" />
-    <Compile Include="Migrations\201903230501254_Initial.Designer.cs">
-      <DependentUpon>201903230501254_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903230507290_Exemplares.cs" />
-    <Compile Include="Migrations\201903230507290_Exemplares.Designer.cs">
-      <DependentUpon>201903230507290_Exemplares.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903230512025_Exemplares2.cs" />
-    <Compile Include="Migrations\201903230512025_Exemplares2.Designer.cs">
-      <DependentUpon>201903230512025_Exemplares2.cs</DependentUpon>
+    <Compile Include="Migrations\201903231817107_Initial.cs" />
+    <Compile Include="Migrations\201903231817107_Initial.Designer.cs">
+      <DependentUpon>201903231817107_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cidade.cs" />
@@ -167,6 +159,7 @@
     <Compile Include="Models\Mappings\LivrosMapping.cs" />
     <Compile Include="Models\Mappings\PessoaMapping.cs" />
     <Compile Include="Models\Pessoa.cs" />
+    <Compile Include="Models\ViewModel\LivroExemplaresViewModel.cs" />
     <Compile Include="Models\ViewModel\PessoaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -4231,14 +4224,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903230501254_Initial.resx">
-      <DependentUpon>201903230501254_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903230507290_Exemplares.resx">
-      <DependentUpon>201903230507290_Exemplares.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903230512025_Exemplares2.resx">
-      <DependentUpon>201903230512025_Exemplares2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903231817107_Initial.resx">
+      <DependentUpon>201903231817107_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
