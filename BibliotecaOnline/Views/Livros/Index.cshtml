@@ -1,69 +1,95 @@
 ﻿@model IEnumerable<BibliotecaOnline.Models.Livro>
-
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Livros";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<style>
+    .div_ {
+        overflow: auto;
+    }
+</style>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <a href="@Url.Action("Create", "Livros")" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Livros</a></li>
+            <li><a href="#">Lista de Livros </a></li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="">
+            <div class="box-header">
+                <h3 class="box-title">Livros</h3>
+            </div>
+            <div class="box div_">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table class="table table-bordered">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Titulo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Autor)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Editora)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Ano)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Idioma)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ISBN)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Edicao)
+                                </th>
+                                <th></th>
+                            </tr>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Titulo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Autor)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Editora)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Ano)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Idioma)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ISBN)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Edicao)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                                        @Html.ActionLink("Detalhes", "Details", new { id = item.Id })
+                                        @*@Html.ActionLink("Deletar", "Delete", new { id = item.Id })*@
+                                    </td>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.LivroExemplar.CodigoDeBarras)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Autor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Editora)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ano)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Idioma)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ISBN)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Edicao)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.LivroExemplar.CodigoDeBarras)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Autor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Editora)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ano)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Idioma)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ISBN)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Edicao)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

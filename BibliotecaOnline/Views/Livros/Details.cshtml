@@ -1,74 +1,64 @@
 ﻿@model BibliotecaOnline.Models.Livro
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Detalhes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Livro</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.LivroExemplar.CodigoDeBarras)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LivroExemplar.CodigoDeBarras)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Autor)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Autor)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Editora)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Editora)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Ano)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Ano)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Idioma)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Idioma)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ISBN)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ISBN)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Edicao)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Edicao)
-        </dd>
-
-    </dl>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <br />
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Cadastros</a></li>
+            <li><a href="#">Livros</a></li>
+            <li class="active">Detalhes</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Profile Image -->
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle" src="~/Content/adminlte/img/user4-128x128.jpg" alt="User profile picture">
+                        <h3 class="profile-username text-center">@Html.DisplayFor(model => model.Autor)</h3>
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b> @Html.DisplayNameFor(model => model.Titulo)</b> <a class="pull-right">  @Html.DisplayFor(model => model.Titulo)</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b> @Html.DisplayNameFor(model => model.Editora)</b> <a class="pull-right">  @Html.DisplayFor(model => model.Editora)</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b> @Html.DisplayNameFor(model => model.Ano)</b> <a class="pull-right">  @Html.DisplayFor(model => model.Ano)</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b> @Html.DisplayNameFor(model => model.Idioma)</b> <a class="pull-right">
+                                    @Html.DisplayFor(model => model.Idioma)
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <b> @Html.DisplayNameFor(model => model.ISBN)</b> <a class="pull-right">  @Html.DisplayFor(model => model.ISBN)</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b> @Html.DisplayNameFor(model => model.Edicao)</b> <a class="pull-right">
+                                    @Html.DisplayFor(model => model.Edicao)
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="box-footer">
+                            <a href="@Html.Raw(@Url.Action("Edit", "Livros", new { id = Model.Id}))" class="btn btn-primary pull-right">Editar</a>
+                            <a href="@Url.Action("Index", "Livros")" class="btn btn-default">Voltar</a>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

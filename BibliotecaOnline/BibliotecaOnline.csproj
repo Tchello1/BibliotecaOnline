@@ -132,6 +132,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ExemplaresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LivrosController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
@@ -139,13 +140,17 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HTMLHelperExtensions.cs" />
-    <Compile Include="Migrations\201903191929116_Pessoa.cs" />
-    <Compile Include="Migrations\201903191929116_Pessoa.Designer.cs">
-      <DependentUpon>201903191929116_Pessoa.cs</DependentUpon>
+    <Compile Include="Migrations\201903230501254_Initial.cs" />
+    <Compile Include="Migrations\201903230501254_Initial.Designer.cs">
+      <DependentUpon>201903230501254_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903192213292_LivrosExemplares.cs" />
-    <Compile Include="Migrations\201903192213292_LivrosExemplares.Designer.cs">
-      <DependentUpon>201903192213292_LivrosExemplares.cs</DependentUpon>
+    <Compile Include="Migrations\201903230507290_Exemplares.cs" />
+    <Compile Include="Migrations\201903230507290_Exemplares.Designer.cs">
+      <DependentUpon>201903230507290_Exemplares.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903230512025_Exemplares2.cs" />
+    <Compile Include="Migrations\201903230512025_Exemplares2.Designer.cs">
+      <DependentUpon>201903230512025_Exemplares2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cidade.cs" />
@@ -4154,6 +4159,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-migrate-3.0.0.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -4190,10 +4196,12 @@
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Livros\Create.cshtml" />
-    <Content Include="Views\Livros\Delete.cshtml" />
     <Content Include="Views\Livros\Details.cshtml" />
     <Content Include="Views\Livros\Edit.cshtml" />
     <Content Include="Views\Livros\Index.cshtml" />
+    <Content Include="Views\Exemplares\Create.cshtml" />
+    <Content Include="Views\Exemplares\Edit.cshtml" />
+    <Content Include="Views\Exemplares\Index.cshtml" />
     <None Include="Web.CustomProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4223,11 +4231,14 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903191929116_Pessoa.resx">
-      <DependentUpon>201903191929116_Pessoa.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903230501254_Initial.resx">
+      <DependentUpon>201903230501254_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903192213292_LivrosExemplares.resx">
-      <DependentUpon>201903192213292_LivrosExemplares.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903230507290_Exemplares.resx">
+      <DependentUpon>201903230507290_Exemplares.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903230512025_Exemplares2.resx">
+      <DependentUpon>201903230512025_Exemplares2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,8 +1,12 @@
-﻿using BibliotecaOnline.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
+using BibliotecaOnline.Models;
 
 namespace BibliotecaOnline.Controllers
 {
@@ -13,8 +17,7 @@ namespace BibliotecaOnline.Controllers
         // GET: Livros
         public ActionResult Index()
         {
-            IQueryable<Livro> livros = db.Livros.Include(l => l.LivroExemplar);
-            return View(livros.ToList());
+            return View(db.Livros.ToList());
         }
 
         // GET: Livros/Details/5
@@ -35,7 +38,6 @@ namespace BibliotecaOnline.Controllers
         // GET: Livros/Create
         public ActionResult Create()
         {
-            ViewBag.LivroExemplarId = new SelectList(db.Exemplares, "Id", "CodigoDeBarras");
             return View();
         }
 
@@ -44,7 +46,7 @@ namespace BibliotecaOnline.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Autor,Editora,Ano,Idioma,ISBN,Edicao,LivroExemplarId")] Livro livro)
+        public ActionResult Create([Bind(Include = "Id,Titulo,Autor,Editora,Ano,Idioma,ISBN,Edicao")] Livro livro)
         {
             if (ModelState.IsValid)
             {
@@ -53,7 +55,6 @@ namespace BibliotecaOnline.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.LivroExemplarId = new SelectList(db.Exemplares, "Id", "CodigoDeBarras", livro.LivroExemplarId);
             return View(livro);
         }
 
@@ -69,7 +70,6 @@ namespace BibliotecaOnline.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.LivroExemplarId = new SelectList(db.Exemplares, "Id", "CodigoDeBarras", livro.LivroExemplarId);
             return View(livro);
         }
 
@@ -78,7 +78,7 @@ namespace BibliotecaOnline.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Autor,Editora,Ano,Idioma,ISBN,Edicao,LivroExemplarId")] Livro livro)
+        public ActionResult Edit([Bind(Include = "Id,Titulo,Autor,Editora,Ano,Idioma,ISBN,Edicao")] Livro livro)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,6 @@ namespace BibliotecaOnline.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.LivroExemplarId = new SelectList(db.Exemplares, "Id", "CodigoDeBarras", livro.LivroExemplarId);
             return View(livro);
         }
 

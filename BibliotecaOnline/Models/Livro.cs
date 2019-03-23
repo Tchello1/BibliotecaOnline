@@ -5,13 +5,29 @@ namespace BibliotecaOnline.Models
     public class Livro
     {
         public int Id { get; set; }
+        public string Titulo { get; set; }
         public string Autor { get; set; }
         public string Editora { get; set; }
-        public int Ano { get; set; }
+        public string Ano { get; set; }
         public string Idioma { get; set; }
         public string ISBN { get; set; }
         public string Edicao { get; set; }
-        public int LivroExemplarId { get; set; }
-        public virtual LivroExemplar LivroExemplar { get; set; }
+
+        public ICollection<LivroExemplar> Exemplares { get; set; }
+
+
+
+        public Livro() { }
+
+        public Livro(int id, string titulo, string autor, string editora, string ano, string idioma, string iSBN, string edicao)
+        {
+            Titulo = titulo;
+            Autor = autor;
+            Editora = editora;
+            Ano = ano;
+            Idioma = idioma;
+            ISBN = iSBN;
+            Edicao = edicao;
+        }
     }
 }
