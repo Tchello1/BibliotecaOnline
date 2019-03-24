@@ -19,6 +19,8 @@ namespace BibliotecaOnline.Models
         public DbSet<Cidade> Cidades { get; set; }
         public DbSet<Livro> Livros { get; set; }
         public DbSet<LivroExemplar> Exemplares { get; set; }
+        public DbSet<Emprestimo> Emprestimos { get; set; }
+        public DbSet<EmprestimoItens> EmprestimoItens { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -32,6 +34,8 @@ namespace BibliotecaOnline.Models
             modelBuilder.Configurations.Add(new CidadesMapping());
             modelBuilder.Configurations.Add(new LivrosMapping());
             modelBuilder.Configurations.Add(new LivroExemplaresMapping());
+            modelBuilder.Configurations.Add(new EmprestimoMapping());
+            modelBuilder.Configurations.Add(new EmprestimoItensMapping());
 
             base.OnModelCreating(modelBuilder);
         }

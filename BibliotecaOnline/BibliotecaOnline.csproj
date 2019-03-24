@@ -140,20 +140,28 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HTMLHelperExtensions.cs" />
-    <Compile Include="Migrations\201903231817107_Initial.cs" />
-    <Compile Include="Migrations\201903231817107_Initial.Designer.cs">
-      <DependentUpon>201903231817107_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201903232110219_Initial.cs" />
+    <Compile Include="Migrations\201903232110219_Initial.Designer.cs">
+      <DependentUpon>201903232110219_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903242035288_Initial2.cs" />
+    <Compile Include="Migrations\201903242035288_Initial2.Designer.cs">
+      <DependentUpon>201903242035288_Initial2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cidade.cs" />
     <Compile Include="Models\Context.cs" />
-    <Compile Include="Models\Enum\LivroStatusEnum.cs" />
+    <Compile Include="Models\Emprestimo.cs" />
+    <Compile Include="Models\EmprestimoItens.cs" />
+    <Compile Include="Models\Enum\LivroExemplarStatusEnum.cs" />
     <Compile Include="Models\Enum\PessoaStatusEnum.cs" />
     <Compile Include="Models\Enum\TipoPessoaEnum.cs" />
     <Compile Include="Models\Estado.cs" />
     <Compile Include="Models\LivroExemplar.cs" />
     <Compile Include="Models\Livro.cs" />
     <Compile Include="Models\Mappings\CidadesMapping.cs" />
+    <Compile Include="Models\Mappings\EmprestimoItensMapping.cs" />
+    <Compile Include="Models\Mappings\EmprestimoMapping.cs" />
     <Compile Include="Models\Mappings\EstadosMapping.cs" />
     <Compile Include="Models\Mappings\LivroExemplaresMapping.cs" />
     <Compile Include="Models\Mappings\LivrosMapping.cs" />
@@ -4224,8 +4232,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903231817107_Initial.resx">
-      <DependentUpon>201903231817107_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903232110219_Initial.resx">
+      <DependentUpon>201903232110219_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903242035288_Initial2.resx">
+      <DependentUpon>201903242035288_Initial2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -18,15 +18,39 @@ namespace BibliotecaOnline.Migrations
                 .PrimaryKey(t => t.Codigo);
             
             CreateTable(
-                "dbo.Estados",
+                "dbo.EmprestimoItens",
                 c => new
                     {
-                        CodigoUf = c.String(nullable: false, maxLength: 200, unicode: false),
-                        Nome = c.String(maxLength: 200, unicode: false),
-                        Uf = c.String(maxLength: 2, unicode: false),
-                        Regiao = c.String(),
+                        Id = c.Int(nullable: false, identity: true),
+                        ColaboradorId = c.Int(nullable: false),
+                        UsuarioId = c.Int(nullable: false),
+                        DataEmprestimo = c.DateTime(nullable: false),
+                        DataRenovacao = c.DateTime(nullable: false),
+                        ColaboradorIdRenovacao = c.Int(nullable: false),
+                        DataDevolucao = c.DateTime(nullable: false),
+                        ColaboradorIdDevolucao = c.Int(nullable: false),
+                        Status = c.Int(nullable: false),
+                        EmprestimoId = c.Int(nullable: false),
+                        ExemplarId = c.Int(nullable: false),
+                        Exemplares_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.CodigoUf);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Emprestimos", t => t.EmprestimoId)
+                .ForeignKey("dbo.Exemplares", t => t.Exemplares_Id)
+                .Index(t => t.EmprestimoId)
+                .Index(t => t.Exemplares_Id);
+            
+            CreateTable(
+                "dbo.Emprestimos",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ColaboradorId = c.Int(nullable: false),
+                        UsuarioId = c.Int(nullable: false),
+                        DataEmprestimo = c.DateTime(nullable: false),
+                        Status = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
             
             CreateTable(
                 "dbo.Exemplares",
@@ -61,6 +85,17 @@ namespace BibliotecaOnline.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
+                "dbo.Estados",
+                c => new
+                    {
+                        CodigoUf = c.String(nullable: false, maxLength: 200, unicode: false),
+                        Nome = c.String(maxLength: 200, unicode: false),
+                        Uf = c.String(maxLength: 2, unicode: false),
+                        Regiao = c.String(),
+                    })
+                .PrimaryKey(t => t.CodigoUf);
+            
+            CreateTable(
                 "dbo.Pessoas",
                 c => new
                     {
@@ -80,12 +115,18 @@ namespace BibliotecaOnline.Migrations
         
         public override void Down()
         {
+            DropForeignKey("dbo.EmprestimoItens", "Exemplares_Id", "dbo.Exemplares");
             DropForeignKey("dbo.Exemplares", "LivroId", "dbo.Livros");
+            DropForeignKey("dbo.EmprestimoItens", "EmprestimoId", "dbo.Emprestimos");
             DropIndex("dbo.Exemplares", new[] { "LivroId" });
+            DropIndex("dbo.EmprestimoItens", new[] { "Exemplares_Id" });
+            DropIndex("dbo.EmprestimoItens", new[] { "EmprestimoId" });
             DropTable("dbo.Pessoas");
+            DropTable("dbo.Estados");
             DropTable("dbo.Livros");
             DropTable("dbo.Exemplares");
-            DropTable("dbo.Estados");
+            DropTable("dbo.Emprestimos");
+            DropTable("dbo.EmprestimoItens");
             DropTable("dbo.Cidades");
         }
     }
