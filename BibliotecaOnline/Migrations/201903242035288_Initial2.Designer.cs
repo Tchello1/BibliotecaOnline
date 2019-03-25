@@ -7,13 +7,13 @@ namespace BibliotecaOnline.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class LivrosExemplares : IMigrationMetadata
+    public sealed partial class Initial2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(LivrosExemplares));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201903192213292_LivrosExemplares"; }
+            get { return "201903242035288_Initial2"; }
         }
         
         string IMigrationMetadata.Source

@@ -1,7 +1,7 @@
 ﻿@model BibliotecaOnline.ViewModel.PessoaViewModel
 
 @{
-    ViewBag.Title = "PageProfile";
+    ViewBag.Title = "Detalhes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- Content Wrapper. Contains page content -->
@@ -70,7 +70,7 @@
                             </li>
                         </ul>
                         <div class="box-footer">
-                            <a href="@Html.Raw(@Url.Action("Edit", "Edit", new { id = Model.Id}))" class="btn btn-primary pull-right">Editar</a>
+                            <a href="@Html.Raw(@Url.Action("Edit", "Usuarios", new { id = Model.Id}))" class="btn btn-primary pull-right">Editar</a>
                             <a href="@Url.Action("Index", "Usuarios")" class="btn btn-default">Voltar</a>
                         </div>
                     </div>

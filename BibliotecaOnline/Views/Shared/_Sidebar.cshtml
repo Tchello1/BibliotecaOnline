@@ -25,6 +25,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    <li class="@Html.IsSelected(action: " Index")"><a href="@Url.Action("Index", "Livros" )"><i class="fa fa-circle-o"></i> Livros</a></li>
+                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Exemplares" )"><i class="fa fa-circle-o"></i> Exemplares</a></li>
                     <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-circle-o"></i> Usuários</a></li>
                 </ul>
             </li>

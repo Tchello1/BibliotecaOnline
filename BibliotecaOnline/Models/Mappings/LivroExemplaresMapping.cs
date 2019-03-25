@@ -1,4 +1,5 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
 
 namespace BibliotecaOnline.Models.Mappings
 {
@@ -9,9 +10,13 @@ namespace BibliotecaOnline.Models.Mappings
             ToTable("Exemplares");
             HasKey(x => x.Id);
 
+            Property(x => x.Id)
+            .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+
             Property(x => x.CodigoDeBarras)
             .HasMaxLength(200)
-            .HasColumnType("varchar");
+            .HasColumnType("varchar")
+            .IsOptional();
 
             Property(x => x.Estante)
             .HasMaxLength(200)
@@ -23,9 +28,21 @@ namespace BibliotecaOnline.Models.Mappings
 
             Property(x => x.Campos)
            .HasMaxLength(200)
-           .HasColumnType("varchar");
+           .HasColumnType("varchar")
+           .IsRequired();
 
-            Property(x => x.Status);
+            Property(x => x.Quantidade).IsOptional();
+
+            Property(x => x.Status)
+                .IsRequired();
+
+            Property(x => x.LivroId)
+                .IsRequired();
+
+            HasRequired(x => x.Livros)
+                .WithMany(x => x.Exemplares)
+                .HasForeignKey(c => c.LivroId);
+
         }
     }
 }
