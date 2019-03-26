@@ -1,4 +1,5 @@
 ﻿using BibliotecaOnline.Models;
+using BibliotecaOnline.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -50,7 +51,7 @@ namespace BibliotecaOnline.Controllers
             {
                 emprestimo.DataEmprestimo = DateTime.Now;
                 emprestimo.ColaboradorId = 0;
-                emprestimo.UsuarioId = 0;
+                emprestimo.UsuarioId = Convert.ToInt32(exemplars.Select(x => x.UsuarioId).FirstOrDefault());
                 emprestimo.Status = 1;
                 db.Emprestimos.Add(emprestimo);
                 db.SaveChanges();
@@ -158,6 +159,46 @@ namespace BibliotecaOnline.Controllers
                 autor = result.Livros.Autor,
                 edicao = result.Livros.Edicao,
                 editora = result.Livros.Editora,
+                mensagem = _mensagem
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult EmprestimoALuno(string matricula)
+        {
+            Pessoa result = db.Pessoas.Where(x => x.Matricula == matricula && x.Tipo == TipoPessoaEnum.Usuario).FirstOrDefault();
+            string _mensagem = "ok";
+            if (result == null)
+            {
+                _mensagem = "Matricula invalidao ou usuario nao existe";
+                return Json(new
+                {
+                    mensagem = _mensagem
+                }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new
+            {
+                usuarioId = result.Id,
+                nome = result.Nome,
+                mensagem = _mensagem
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult AutenticaEmprestimo(int usuarioId, string senha)
+        {
+            Pessoa result = db.Pessoas.Where(x => x.Id == usuarioId && x.Senha == senha).FirstOrDefault();
+            string _mensagem = "ok";
+            if (result == null)
+            {
+                _mensagem = "senha incorreta";
+                return Json(new
+                {
+                    mensagem = _mensagem
+                }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new
+            {
                 mensagem = _mensagem
             }, JsonRequestBehavior.AllowGet);
         }

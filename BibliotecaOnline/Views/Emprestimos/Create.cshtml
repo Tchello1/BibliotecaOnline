@@ -6,6 +6,9 @@
 <script src="~/Scripts/adminlte/components/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
+        $('#salvar').attr('disabled', 'disabled');
+        $('#inserir').attr('disabled', 'disabled');
+
         $('#form').on('keyup keypress', function (e) {
             var keyCode = e.keyCode || e.which;
             if (keyCode === 13) {
@@ -22,14 +25,54 @@
                 var existe = 0;
                 $('#table tr').each(function () {
                     var _codigoBarras = $(this).find("td").eq(1).text();
-                    if (_codigoBarras == codigoBarras) {
+                    if (_codigoBarras == codigoBarras && codigoBarras != "") {
                         existe = 1;
                         alert("Código de Barras: " + codigoBarras + " ja inserido");
                     }
                 });
 
                 if (existe == 0) {
-                    $.ajax({
+                    VerificarCodigoDeBarras();
+                }
+            }
+        });
+
+        $('#table').on('click', ".remove", function () {
+            $(this).closest('tr').remove();
+
+            var rowCount = $('#table tbody tr td').length;
+            if (rowCount < 1) {
+                $('#salvar').attr('disabled', 'disabled');
+            } else {
+                $('#salvar').removeAttr('disabled');
+            }
+            console.log(rowCount);
+        });
+
+        $("#pesquisar").click(function () {
+            VerificarUsuarioEmprestimo($("#matricula").val());
+        });
+
+        $("#autenticar").click(function () {
+            AutenticaEmprestimo($("#usuarioId").val(), $("#senha").val());
+        });
+        $("#inserir").click(function () {
+              codigoBarras = $("#CodigoDeBarras").val();
+            var existe = 0;
+            $('#table tr').each(function () {
+                  _codigoBarras = $(this).find("td").eq(1).text();
+                if (_codigoBarras == codigoBarras && codigoBarras != "") {
+                    existe = 1;
+                    alert("Código de Barras: " + codigoBarras + " ja inserido");
+                }
+            });
+            if (existe == 0 && codigoBarras != "") {
+                VerificarCodigoDeBarras();
+            }
+        });
+
+        function VerificarCodigoDeBarras() {
+             $.ajax({
                         url: '@Url.Action("PesquisaCodigoDeBarras", "Emprestimos")',
                         dataType: 'json',
                         type: "POST",
@@ -45,33 +88,73 @@
                                 $("#table tbody").append("<tr class='item'><td class='hide'>" + exemplarId + "</td><td>" + codigoBarras + "</td><td>" + titulo + "</td><td>" + autor + "</td><td>" + edicao + "</td><td>" + editora + "</td><td><a href='#' class = 'remove'>Remover</a></td></tr>");
 
                                 $("#CodigoDeBarras").val("");
+                                $('#salvar').removeAttr('disabled');
                             }
                             else {
                                 alert(data.mensagem);
                             }
                         }
                     });
+        }
+
+        function VerificarUsuarioEmprestimo(matricula) {
+             $.ajax({
+                        url: '@Url.Action("EmprestimoALuno", "Emprestimos")',
+                        dataType: 'json',
+                        type: "POST",
+                        cache: false,
+                 data: { matricula: matricula },
+                        success: function (data) {
+                            if (data.mensagem == "ok") {
+                                var usuarioId = data.usuarioId;
+                                var nome = data.nome;
+
+                                $("#usuarioId").val(usuarioId);
+                                $("#nome").val(nome);
+
+                                $('#inserir').removeAttr('disabled');
+                            }
+                            else {
+                                alert(data.mensagem);
+                            }
+                        }
+                    });
+        }
+
+        function AutenticaEmprestimo(usuarioId, senha) {
+            console.log(usuarioId);
+            $.ajax({
+                url: '@Url.Action("AutenticaEmprestimo", "Emprestimos")',
+                dataType: 'json',
+                type: "POST",
+                cache: false,
+                data: { usuarioId: usuarioId, senha: senha },
+                success: function (data) {
+                    if (data.mensagem == "ok") {
+                         var dados_emprestimo = [];
+
+                        $('.item').each(function () {
+                            var entidade_exemplar = {
+                                ExemplarId: $(this).children()[0].innerText,
+                                CodigoDeBarras: $(this).children()[1].innerText,
+                                UsuarioId: usuarioId
+                            };
+
+                        dados_emprestimo.push(entidade_exemplar);
+                        });
+
+                        enviarDados(dados_emprestimo);
+                        $('#salvar').attr('disabled', 'disabled');
+
+                        var delay = 1000;
+                        setTimeout(function () { window.location = '/Emprestimos/Index/'; }, delay);
+                    }
+                    else {
+                        alert(data.mensagem);
+                    }
                 }
-            }
-        });
-
-        $('#table').on('click', ".remove", function () {
-            $(this).closest('tr').remove();
-        });
-
-        $("#salvar").click(function () {
-            var dados_emprestimo = [];
-
-            $('.item').each(function () {
-                var entidade_exemplar = {
-                    ExemplarId: $(this).children()[0].innerText,
-                    CodigoDeBarras: $(this).children()[1].innerText
-                };
-
-                dados_emprestimo.push(entidade_exemplar);
             });
-            enviarDados(dados_emprestimo);
-        });
+        };
 
         function enviarDados(dados_emprestimo) {
             var exemplars = JSON.stringify({ 'exemplars': dados_emprestimo });
@@ -87,86 +170,150 @@
     });
 
 </script>
-<!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            <br />
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i>Empréstimos</a></li>
-            <li><a href="#">Novo Empréstimo</a></li>
-        </ol>
-    </section>
-    <!-- Main content -->
-    <section class="content">
-        <div class="row">
-            <!-- left column -->
-            <div class="">
-                <!-- general form elements -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Empréstimos</h3>
+@using (Html.BeginForm("Create", "Emprestimos", FormMethod.Post, new { @id = "form" }))
+{
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                <br />
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="#"><i class="fa fa-dashboard"></i>Empréstimos</a></li>
+                <li><a href="#">Novo Empréstimo</a></li>
+            </ol>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Autenticacao</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div>
+                                    <label>Senha</label>
+                                    <input type="password" id="senha" name="senha" class="form-control" placeholder="Senha" required autocomplete="off" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" id="autenticar" class="btn btn-primary pull-right">Autenticar</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        </div>
+
                     </div>
-                    <!-- /.box-header -->
-                    @using (Html.BeginForm("Create", "Emprestimos", FormMethod.Post, new { @id = "form" }))
-                    {
+                </div>
+            </div>
+            <div class="row">
+                <!-- left column -->
+                <div class="">
+                    <!-- general form elements -->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Usuario</h3>
+                        </div>
                         <div class="box-body">
-                            <hr />
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group">
                                 <div class="form-group">
-                                    <label>Código de Barras</label>
-                                    <input type="text" id="CodigoDeBarras" name="CodigoDeBarras" class="form-control" placeholder="Código de Barras" required autocomplete="off" />
+                                    <label>Matricula</label>
+                                    <div class="input-group">
+                                        <input type="text" id="matricula" name="matricula" class="form-control" placeholder="RGA ou Codigo do Professor" required autocomplete="off" />
+                                        <span class="input-group-btn">
+                                            <button type="button" id="pesquisar" class="btn btn-primary pull-right">Pesquisar</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div>
+                                        <label>Nome</label>
+                                        <input type="text" id="usuarioId" name="usuarioId" class="hide" />
+                                        <input type="text" id="nome" name="nome" class="form-control" disabled />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    }
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="content">
-        <div class="">
-            <div class="box-header">
-                <h3 class="box-title">Livros</h3>
-            </div>
-            <div class="box div_">
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <table id="table" class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th>
-                                    Código de Barras
-                                </th>
-                                <th class="hide">
-                                    ExemplarId
-                                </th>
-                                <th>
-                                    Titulo
-                                </th>
-                                <th>
-                                    Autor
-                                </th>
-                                <th>
-                                    Edicao
-                                </th>
-                                <th>
-                                    Editora
-                                </th>
-                                <th></th>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="row">
+                <!-- left column -->
+                <div class="">
+                    <!-- general form elements -->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Empréstimos</h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label>Código de Barras</label>
+                                    <div class="input-group">
+                                        <input type="text" id="CodigoDeBarras" name="CodigoDeBarras" class="form-control" placeholder="Código de Barras" autocomplete="off" />
+                                        <span class="input-group-btn">
+                                            <button type="button" id="inserir" class="btn btn-primary pull-right">Inserir</button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    <div class="box-footer">
-        <button type="button" id="salvar" class="btn btn-primary pull-right">Salvar</button>
-        <a href="@Url.Action("Index", "Livros")" class="btn btn-default">Voltar</a>
+            <div class="row">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Lista de livros</h3>
+                    </div>
+                    <hr />
+                    <div class="box div_">
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="form-group">
+                                <table id="table" class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>
+                                                Código de Barras
+                                            </th>
+                                            <th class="hide">
+                                                ExemplarId
+                                            </th>
+                                            <th>
+                                                Titulo
+                                            </th>
+                                            <th>
+                                                Autor
+                                            </th>
+                                            <th>
+                                                Edicao
+                                            </th>
+                                            <th>
+                                                Editora
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="button" id="salvar" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Salvar</button>
+                        <a href="@Url.Action("Index", "Livros")" class="btn btn-default">Voltar</a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-</div>
+}
