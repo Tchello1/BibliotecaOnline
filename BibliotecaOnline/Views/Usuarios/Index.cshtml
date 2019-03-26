@@ -4,111 +4,115 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .div_ {
-        overflow: auto;
-    }
-</style>
-<!-- Content Wrapper. Contains page content -->
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <a href="@Url.Action("Create", "Usuarios")" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
+        <h1>
+            <br />
+        </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Usuários</a></li>
-            <li><a href="#">Lista de Usuários </a></li>
+            <li><a href="#"><i class="fa fa-dashboard"></i>Usuários</a></li>
+            <li><a href="#">Novo Usuário</a></li>
         </ol>
     </section>
     <!-- Main content -->
     <section class="content">
-        <div class="">
-            <div class="box-header">
-                <h3 class="box-title">Usuarios</h3>
-            </div>
-            <div class="box div_">
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Matricula)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Nome)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Tipo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Email)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Cidade)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.UF)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Status)
-                                </th>
-                                <th></th>
-                            </tr>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Matricula)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Nome)
-                                    </td>
-                                    <td>
-                                        @switch (item.Tipo)
-                                        {
-                                            case (BibliotecaOnline.Models.Enum.TipoPessoaEnum)1:
-                                                <text>@Html.Raw("Administrador")</text>
-                                                break;
-                                            case (BibliotecaOnline.Models.Enum.TipoPessoaEnum)2:
-                                                <text>@Html.Raw("Colaborador")</text>
-                                                break;
-                                            case (BibliotecaOnline.Models.Enum.TipoPessoaEnum)3:
-                                                <text> @Html.Raw("Usuario")</text>
-                                                break;
-                                        }
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Email)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Cidade)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UF)
-                                    </td>
-                                    <td>
-                                        @switch (item.Status)
-                                        {
-                                            case (BibliotecaOnline.Models.Enum.PessoaStatusEnum)0:
-                                                <text>@Html.Raw("Inativo")</text>
-                                                break;
-                                            case (BibliotecaOnline.Models.Enum.PessoaStatusEnum)1:
-                                                <text>@Html.Raw("Ativo")</text>
-                                                break;
-                                            case (BibliotecaOnline.Models.Enum.PessoaStatusEnum)2:
-                                                <text> @Html.Raw("Suspenso")</text>
-                                                break;
-                                        }
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                                        @Html.ActionLink("Detalhes", "Details", new { id = item.Id })
-                                        @*@Html.ActionLink("Deletar", "Delete", new { id = item.Id })*@
-                                    </td>
+        <div class="row">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Lista de Usuários</h3>
+                    <div class="pull-right">
+                        <a href="@Url.Action("Create", "Usuarios")" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
+                    </div>
+                </div>
+                <div class="div_">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="form-group">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Matricula)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Nome)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Tipo)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Email)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Cidade)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.UF)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Status)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Matricula)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Nome)
+                                            </td>
+                                            <td>
+                                                @switch (item.Tipo)
+                                                {
+                                                    case (BibliotecaOnline.Models.Enum.TipoPessoaEnum)1:
+                                                        <text>@Html.Raw("Administrador")</text>
+                                                        break;
+                                                    case (BibliotecaOnline.Models.Enum.TipoPessoaEnum)2:
+                                                        <text>@Html.Raw("Colaborador")</text>
+                                                        break;
+                                                    case (BibliotecaOnline.Models.Enum.TipoPessoaEnum)3:
+                                                        <text> @Html.Raw("Usuario")</text>
+                                                        break;
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Email)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Cidade)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UF)
+                                            </td>
+                                            <td>
+                                                @switch (item.Status)
+                                                {
+                                                    case (BibliotecaOnline.Models.Enum.PessoaStatusEnum)0:
+                                                        <text>@Html.Raw("Inativo")</text>
+                                                        break;
+                                                    case (BibliotecaOnline.Models.Enum.PessoaStatusEnum)1:
+                                                        <text>@Html.Raw("Ativo")</text>
+                                                        break;
+                                                    case (BibliotecaOnline.Models.Enum.PessoaStatusEnum)2:
+                                                        <text> @Html.Raw("Suspenso")</text>
+                                                        break;
+                                                }
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                                                @Html.ActionLink("Detalhes", "Details", new { id = item.Id })
+                                                @*@Html.ActionLink("Deletar", "Delete", new { id = item.Id })*@
+                                            </td>
 
-                                </tr>}
-                        </tbody>
-                    </table>
+                                        </tr>}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

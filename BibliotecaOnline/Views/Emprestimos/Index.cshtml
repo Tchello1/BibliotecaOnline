@@ -5,67 +5,80 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .div_ {
-        overflow: auto;
-    }
-</style>
-<!-- Content Wrapper. Contains page content -->
+@*<style>
+        .div_ {
+            overflow: auto;
+        }
+    </style>*@
+
+
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <a href="@Url.Action("Create", "Emprestimos")" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
+        <h1>
+            <br />
+        </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Empréstimos</a></li>
-            <li><a href="#">Lista de Empréstimos </a></li>
+            <li><a href="#"><i class="fa fa-dashboard"></i>Empréstimos</a></li>
+            <li><a href="#">Novo Empréstimo</a></li>
         </ol>
     </section>
     <!-- Main content -->
-    <section class="content-header">
-        <div class="">
-            <div class="box-header">
-                <h3 class="box-title">Empréstimos</h3>
-            </div>
-            <div class="box div_">
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <table class="table table-bordered">
-                        <tbody>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.Id)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.UsuarioId)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.DataEmprestimo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ColaboradorId)
-                                </th>
-                            </tr>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Id)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.UsuarioId)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.DataEmprestimo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.ColaboradorId)
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+    <section class="content">
+        <div class="row">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Lista de empréstimo</h3>
+                    <div class="pull-right">
+                        <a href="@Url.Action("Create", "Emprestimos")" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
+                    </div>
+                </div>
+                <div class="div_">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="form-group">
+                            <table class="table table-bordered col-md-12">
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Id)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.UsuarioId)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DataEmprestimo)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.ColaboradorId)
+                                        </th>
+                                    </tr>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Id)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UsuarioId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DataEmprestimo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ColaboradorId)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 </div>
+
+

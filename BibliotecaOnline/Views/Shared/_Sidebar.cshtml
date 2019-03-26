@@ -9,7 +9,7 @@
                 <a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> <span>Inicio</span></a>
             </li>
             <li class="@Html.IsSelected(controller: "Usuarios") treeview">
-                <a href="@Url.Action("Index", "Usuarios")">
+                <a href="@Url.Action("Index", "Usuarios" )">
                     <i class="fa fa-plus-circle"></i> <span>Cadastros</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
@@ -18,13 +18,22 @@
                 <ul class="treeview-menu">
                     <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Livros" )"><i class="fa fa-circle-o"></i> Livros</a></li>
                     <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Exemplares" )"><i class="fa fa-circle-o"></i> Exemplares</a></li>
-                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-circle-o"></i> Usuários</a></li>
+                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Usuarios" )"><i class="fa fa-circle-o"></i> Usuários</a></li>
                 </ul>
             </li>
-        </ul>
-        <ul class="sidebar-menu" data-widget="tree">
-            <li>
-                <a href="@Url.Action("Index", "Emprestimos")"><i class="fa fa-shopping-cart"></i> <span>Emprestimos</span></a>
+
+            <li class="@Html.IsSelected(controller: "Emprestimos") treeview">
+                <a href="@Url.Action("Index", "Emprestimos")">
+                    <i class="fa fa-book"></i> <span>Livros</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Emprestimos" )"><i class="fa fa-circle-o"></i> Emprestimo</a></li>
+                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Devolucao", "Emprestimos" )"><i class="fa fa-circle-o"></i> Devolucao</a></li>
+                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Renovacao", "Emprestimos")"><i class="fa fa-circle-o"></i> Renovacao</a></li>
+                </ul>
             </li>
         </ul>
     </section>
