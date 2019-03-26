@@ -19,13 +19,20 @@ namespace BibliotecaOnline.Models.Mappings
 
             Property(x => x.DataEmprestimo);
 
-            Property(x => x.ColaboradorIdRenovacao);
+            Property(x => x.ColaboradorIdRenovacao)
+            .IsOptional();
 
-            Property(x => x.DataRenovacao);
+            Property(x => x.DataRenovacao)
+            .IsOptional();
 
-            Property(x => x.ColaboradorIdDevolucao);
+            Property(x => x.ColaboradorIdDevolucao)
+            .IsOptional();
 
-            Property(x => x.DataDevolucao);
+            Property(x => x.DataDevolucao)
+            .IsOptional();
+
+            Property(x => x.DataLimite)
+            .IsOptional();
 
             Property(x => x.Status);
 
