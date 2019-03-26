@@ -13,6 +13,7 @@ namespace BibliotecaOnline.Models
             Campos = campos;
             Status = LivroExemplarStatusEnum.Disponivel;
             LivroId = livroId;
+            EmprestimoItens itens = new EmprestimoItens();
         }
         public LivroExemplar() { }
 

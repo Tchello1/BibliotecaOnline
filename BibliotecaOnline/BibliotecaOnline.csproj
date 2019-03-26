@@ -132,6 +132,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EmprestimosController.cs" />
     <Compile Include="Controllers\ExemplaresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LivrosController.cs" />
@@ -147,6 +148,14 @@
     <Compile Include="Migrations\201903242035288_Initial2.cs" />
     <Compile Include="Migrations\201903242035288_Initial2.Designer.cs">
       <DependentUpon>201903242035288_Initial2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903260359389_DataLimite.cs" />
+    <Compile Include="Migrations\201903260359389_DataLimite.Designer.cs">
+      <DependentUpon>201903260359389_DataLimite.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903260415589_DataLimite2.cs" />
+    <Compile Include="Migrations\201903260415589_DataLimite2.Designer.cs">
+      <DependentUpon>201903260415589_DataLimite2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cidade.cs" />
@@ -4203,6 +4212,11 @@
     <Content Include="Views\Exemplares\Create.cshtml" />
     <Content Include="Views\Exemplares\Edit.cshtml" />
     <Content Include="Views\Exemplares\Index.cshtml" />
+    <Content Include="Views\Emprestimos\Create.cshtml" />
+    <Content Include="Views\Emprestimos\Delete.cshtml" />
+    <Content Include="Views\Emprestimos\Details.cshtml" />
+    <Content Include="Views\Emprestimos\Edit.cshtml" />
+    <Content Include="Views\Emprestimos\Index.cshtml" />
     <None Include="Web.CustomProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4237,6 +4251,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903242035288_Initial2.resx">
       <DependentUpon>201903242035288_Initial2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903260359389_DataLimite.resx">
+      <DependentUpon>201903260359389_DataLimite.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903260415589_DataLimite2.resx">
+      <DependentUpon>201903260415589_DataLimite2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

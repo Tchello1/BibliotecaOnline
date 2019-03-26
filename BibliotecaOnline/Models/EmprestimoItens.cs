@@ -5,7 +5,7 @@ namespace BibliotecaOnline.Models
 {
     public class EmprestimoItens
     {
-        public EmprestimoItens(int colaboradorId, int usuarioId, DateTime dataEmprestimo, int emprestimoId)
+        public EmprestimoItens(int colaboradorId, int usuarioId, DateTime dataEmprestimo, int emprestimoId, int exemplarId)
         {
             ColaboradorId = colaboradorId;
             UsuarioId = usuarioId;
@@ -22,16 +22,17 @@ namespace BibliotecaOnline.Models
         public int ColaboradorId { get; set; }
         public int UsuarioId { get; set; }
         public DateTime DataEmprestimo { get; set; }
-        public DateTime DataRenovacao { get; set; }
+        public DateTime DataLimite { get; set; }
+        public DateTime? DataRenovacao { get; set; }
         public int ColaboradorIdRenovacao { get; set; }
-        public DateTime DataDevolucao { get; set; }
+        public DateTime? DataDevolucao { get; set; }
         public int ColaboradorIdDevolucao { get; set; }
         public LivroExemplarStatusEnum Status { get; set; }
-
         public int EmprestimoId { get; set; }
         public Emprestimo Emprestimos { get; set; }
         public int ExemplarId { get; set; }
         public LivroExemplar Exemplares { get; set; }
+
 
         public void Renovar()
         {

@@ -3,7 +3,6 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <!-- Sidebar user panel -->
-       
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <li>
@@ -11,16 +10,21 @@
             </li>
             <li class="@Html.IsSelected(controller: "Usuarios") treeview">
                 <a href="@Url.Action("Index", "Usuarios")">
-                    <i class="fa fa-book"></i> <span>Cadastros</span>
+                    <i class="fa fa-plus-circle"></i> <span>Cadastros</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="@Html.IsSelected(action: " Index")"><a href="@Url.Action("Index", "Livros" )"><i class="fa fa-circle-o"></i> Livros</a></li>
+                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Livros" )"><i class="fa fa-circle-o"></i> Livros</a></li>
                     <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Exemplares" )"><i class="fa fa-circle-o"></i> Exemplares</a></li>
                     <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-circle-o"></i> Usuários</a></li>
                 </ul>
+            </li>
+        </ul>
+        <ul class="sidebar-menu" data-widget="tree">
+            <li>
+                <a href="@Url.Action("Index", "Emprestimos")"><i class="fa fa-shopping-cart"></i> <span>Emprestimos</span></a>
             </li>
         </ul>
     </section>
