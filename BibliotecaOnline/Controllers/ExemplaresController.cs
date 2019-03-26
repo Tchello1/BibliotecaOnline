@@ -18,7 +18,7 @@ namespace BibliotecaOnline.Controllers
         {
 
             IQueryable<LivroExemplaresViewModel> exemplares = (from l in db.Exemplares.Include(l => l.Livros)
-                                                          join c in db.Cidades on l.Campos equals c.Codigo
+                                                          join c in db.Cidades on l.Campus equals c.Codigo
                                                           select new LivroExemplaresViewModel
                                                           {
                                                               Id = l.Id,
@@ -27,7 +27,7 @@ namespace BibliotecaOnline.Controllers
                                                               CodigoDeBarras = l.CodigoDeBarras,
                                                               Estante = l.Estante,
                                                               Setor = l.Setor,
-                                                              Campos = c.Nome + " - " + c.UF
+                                                              Campus = c.Nome + " - " + c.UF
                                                           });
 
             return View(exemplares.ToList());
@@ -60,7 +60,7 @@ namespace BibliotecaOnline.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CodigoDebarras,Estante,Setor,Campos,Quantidade,Status,LivroId")] LivroExemplar livroExemplar)
+        public ActionResult Create([Bind(Include = "Id,CodigoDebarras,Estante,Setor,campus,Quantidade,Status,LivroId")] LivroExemplar livroExemplar)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +112,7 @@ namespace BibliotecaOnline.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CodigoDeBarras,Estante,Setor,Campos,Status,LivroId")] LivroExemplar livroExemplar)
+        public ActionResult Edit([Bind(Include = "Id,CodigoDeBarras,Estante,Setor,campus,Status,LivroId")] LivroExemplar livroExemplar)
         {
             if (ModelState.IsValid)
             {
@@ -151,9 +151,9 @@ namespace BibliotecaOnline.Controllers
         }
 
         [HttpPost]
-        public JsonResult AutoCompleteCampos(string campos)
+        public JsonResult AutoCompletecampus(string campus)
         {
-            var result = db.Cidades.Where(x => x.Nome.Contains(campos) || x.Codigo == campos).OrderBy(x => x.Nome).Select(x => new
+            var result = db.Cidades.Where(x => x.Nome.Contains(campus) || x.Codigo == campus).OrderBy(x => x.Nome).Select(x => new
             {
                 Nome = x.Nome + " - " + x.UF,
                 Id = x.Codigo

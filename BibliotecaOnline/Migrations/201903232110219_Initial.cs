@@ -60,7 +60,7 @@ namespace BibliotecaOnline.Migrations
                         CodigoDeBarras = c.String(maxLength: 200, unicode: false),
                         Estante = c.String(maxLength: 200, unicode: false),
                         Setor = c.String(maxLength: 200, unicode: false),
-                        Campos = c.String(nullable: false, maxLength: 200, unicode: false),
+                        campus = c.String(nullable: false, maxLength: 200, unicode: false),
                         Quantidade = c.Int(),
                         Status = c.Int(nullable: false),
                         LivroId = c.Int(nullable: false),

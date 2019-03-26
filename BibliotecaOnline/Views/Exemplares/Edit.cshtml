@@ -27,7 +27,7 @@
         });
 
         @*$.ajax ({
-            url: '@Url.Action("AutoCompleteCampos", "Exemplares",new {campos = Model.Campos })',
+            url: '@Url.Action("AutoCompletecampus", "Exemplares",new {campus = Model.campus })',
             dataType: 'json',
             type: 'POST',
             delay: 250,
@@ -47,16 +47,16 @@
 
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("AutoCompleteCampos", "Exemplares",new {campos = Model.Campos })',
+            url: '@Url.Action("AutoCompletecampus", "Exemplares",new {campus = Model.campus })',
         }).then(function (data) {
             var option;
             results: $.map(data, function (item) {
                 option = new Option(item.Nome, item.Id, true, true);
             });
 
-            $("#Campos").append(option).trigger('change');
+            $("#campus").append(option).trigger('change');
 
-            $("#Campos").trigger({
+            $("#campus").trigger({
                 type: 'select2:select',
                 params: {
                     data: data
@@ -64,15 +64,15 @@
             });
         });
 
-        $("#Campos").select2({
+        $("#campus").select2({
         ajax: {
-           url: '@Url.Action("AutoCompleteCampos", "Exemplares")',
+           url: '@Url.Action("AutoCompletecampus", "Exemplares")',
             dataType: 'json',
             type: 'POST',
             delay: 250,
             data: function (params) {
                 return {
-                    campos: params.term,
+                    campus: params.term,
                 };
             },
             processResults: function (data, search) {
@@ -143,9 +143,9 @@
                                 @Html.ValidationMessageFor(model => model.Livros.Titulo, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Campos, htmlAttributes: new { @class = "" })
-                                <select id="Campos" name="Campos" class="form-control select2"></select>
-                                @Html.ValidationMessageFor(model => model.Campos, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.campus, htmlAttributes: new { @class = "" })
+                                <select id="campus" name="campus" class="form-control select2"></select>
+                                @Html.ValidationMessageFor(model => model.campus, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Estante, htmlAttributes: new { @class = "" })
