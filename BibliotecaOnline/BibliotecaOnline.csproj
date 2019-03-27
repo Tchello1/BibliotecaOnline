@@ -136,6 +136,7 @@
     <Compile Include="Controllers\ExemplaresController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LivrosController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -4222,6 +4223,7 @@
     <Content Include="Views\Emprestimos\Details.cshtml" />
     <Content Include="Views\Emprestimos\Edit.cshtml" />
     <Content Include="Views\Emprestimos\Index.cshtml" />
+    <Content Include="Views\Login\Login.cshtml" />
     <None Include="Web.CustomProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -27,10 +27,10 @@
         });
 
 
-
         $.ajax({
             type: 'POST',
             url: '@Url.Action("AutoCompleteCampus", "Exemplares",new {campus = Model.Campus })',
+
         }).then(function (data) {
             var option;
             results: $.map(data, function (item) {
