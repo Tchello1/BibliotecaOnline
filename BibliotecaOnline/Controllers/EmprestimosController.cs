@@ -1,6 +1,5 @@
 ﻿using BibliotecaOnline.Models;
 using BibliotecaOnline.Models.Enum;
-using BibliotecaOnline.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -16,24 +15,29 @@ namespace BibliotecaOnline.Controllers
         private Context db = new Context();
 
         // GET: Emprestimos
-        //public ActionResult Index()
-        //{
-        //    IQueryable<EmprestimosViewModel> exemplares = (from l in db.Exemplares.Include(l => l.Livros)
-        //                                                   join c in db.Cidades on l.Campos equals c.Codigo
-        //                                                   join e in db.Emprestimos on l.Livros.Exemplares equals e.Emprestimos
-        //                                                   select new EmprestimosViewModel
-        //                                                   {
-        //                                                       CodigoDeBarras = l.CodigoDeBarras,
-        //                                                       Titulo = l.Livros.Titulo,
-        //                                                       Edicao = l.Livros.Edicao,
-        //                                                       Autor = l.Livros.Autor,
-        //                                                       Editora = l.Livros.Editora,
-        //                                                       Campus = "",
-                                                               
-        //                                                   });
+        public ActionResult Index()
+        {
+            //public ActionResult Index()
+            //{
+            //    IQueryable<EmprestimosViewModel> exemplares = (from l in db.Exemplares.Include(l => l.Livros)
+            //                                                   join c in db.Cidades on l.Campus equals c.Codigo
+            //                                                   join e in db.Emprestimos on l.Livros.Exemplares equals e.Emprestimos
+            //                                                   select new EmprestimosViewModel
+            //                                                   {
+            //                                                       CodigoDeBarras = l.CodigoDeBarras,
+            //                                                       Titulo = l.Livros.Titulo,
+            //                                                       Edicao = l.Livros.Edicao,
+            //                                                       Autor = l.Livros.Autor,
+            //                                                       Editora = l.Livros.Editora,
+            //                                                       Campus = "",
 
-        //    return View(exemplares.ToList());
-        //}
+            //                                                   });
+
+            //    return View(exemplares.ToList());
+            //}
+
+            return View(db.Emprestimos.ToList());
+        }
 
         // GET: Emprestimos/Details/5
         public ActionResult Details(int? id)

@@ -26,37 +26,20 @@
             allowClear: true
         });
 
-        @*$.ajax ({
-            url: '@Url.Action("AutoCompleteCampos", "Exemplares",new {campos = Model.Campos })',
-            dataType: 'json',
-            type: 'POST',
-            delay: 250,
-            processResults: function (data, search) {
-                return {
-                    results: $.map(data, function (item) {
-                        return {
-                            id: item.Id,
-                            text: item.Nome,
-                        }
-                    }),
-                };
-            }
-        });*@
-
 
 
         $.ajax({
             type: 'POST',
-            url: '@Url.Action("AutoCompleteCampos", "Exemplares",new {campos = Model.Campos })',
+            url: '@Url.Action("AutoCompleteCampus", "Exemplares",new {campus = Model.Campus })',
         }).then(function (data) {
             var option;
             results: $.map(data, function (item) {
                 option = new Option(item.Nome, item.Id, true, true);
             });
 
-            $("#Campos").append(option).trigger('change');
+            $("#Campus").append(option).trigger('change');
 
-            $("#Campos").trigger({
+            $("#Campus").trigger({
                 type: 'select2:select',
                 params: {
                     data: data
@@ -64,15 +47,15 @@
             });
         });
 
-        $("#Campos").select2({
+        $("#Campus").select2({
         ajax: {
-           url: '@Url.Action("AutoCompleteCampos", "Exemplares")',
+           url: '@Url.Action("AutoCompleteCampus", "Exemplares")',
             dataType: 'json',
             type: 'POST',
             delay: 250,
             data: function (params) {
                 return {
-                    campos: params.term,
+                    campus: params.term,
                 };
             },
             processResults: function (data, search) {
@@ -143,9 +126,9 @@
                                 @Html.ValidationMessageFor(model => model.Livros.Titulo, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
-                                @Html.LabelFor(model => model.Campos, htmlAttributes: new { @class = "" })
-                                <select id="Campos" name="Campos" class="form-control select2"></select>
-                                @Html.ValidationMessageFor(model => model.Campos, "", new { @class = "text-danger" })
+                                @Html.LabelFor(model => model.Campus, htmlAttributes: new { @class = "" })
+                                <select id="Campus" name="Campus" class="form-control select2"></select>
+                                @Html.ValidationMessageFor(model => model.Campus, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Estante, htmlAttributes: new { @class = "" })

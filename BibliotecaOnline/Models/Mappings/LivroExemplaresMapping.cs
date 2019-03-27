@@ -26,7 +26,7 @@ namespace BibliotecaOnline.Models.Mappings
            .HasMaxLength(200)
            .HasColumnType("varchar");
 
-            Property(x => x.Campos)
+            Property(x => x.Campus)
            .HasMaxLength(200)
            .HasColumnType("varchar")
            .IsRequired();

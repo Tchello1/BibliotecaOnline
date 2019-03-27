@@ -157,6 +157,10 @@
     <Compile Include="Migrations\201903260415589_DataLimite2.Designer.cs">
       <DependentUpon>201903260415589_DataLimite2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903270019149_Campus.cs" />
+    <Compile Include="Migrations\201903270019149_Campus.Designer.cs">
+      <DependentUpon>201903270019149_Campus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cidade.cs" />
     <Compile Include="Models\Context.cs" />
@@ -4258,6 +4262,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903260415589_DataLimite2.resx">
       <DependentUpon>201903260415589_DataLimite2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903270019149_Campus.resx">
+      <DependentUpon>201903270019149_Campus.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

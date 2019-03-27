@@ -8,6 +8,6 @@
         public string CodigoDeBarras { get; set; }
         public string Estante { get; set; }
         public string Setor { get; set; }
-        public string Campos { get; set; }
+        public string Campus { get; set; }
     }
 }
