@@ -181,6 +181,7 @@
     <Compile Include="Models\Mappings\LivrosMapping.cs" />
     <Compile Include="Models\Mappings\PessoaMapping.cs" />
     <Compile Include="Models\Pessoa.cs" />
+    <Compile Include="Models\ViewModel\EmprestimosViewModel.cs" />
     <Compile Include="Models\ViewModel\LivroExemplaresViewModel.cs" />
     <Compile Include="Models\ViewModel\PessoaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
