@@ -1,5 +1,6 @@
 ﻿using BibliotecaOnline.Models.Enum;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BibliotecaOnline.Models
 {
@@ -18,6 +19,7 @@ namespace BibliotecaOnline.Models
         public LivroExemplar() { }
 
         public int Id { get; set; }
+        [Display(Name = "Código de barras")]
         public string CodigoDeBarras { get; set; }
         public string Estante { get; set; }
         public string Setor { get; set; }
