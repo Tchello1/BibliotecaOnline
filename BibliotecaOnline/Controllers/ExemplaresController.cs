@@ -60,7 +60,7 @@ namespace BibliotecaOnline.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CodigoDebarras,Estante,Setor,campus,Quantidade,Status,LivroId")] LivroExemplar livroExemplar)
+        public ActionResult Create([Bind(Include = "Id,CodigoDebarras,Estante,Setor,Campus,Quantidade,Status,LivroId")] LivroExemplar livroExemplar)
         {
             if (ModelState.IsValid)
             {
@@ -112,7 +112,8 @@ namespace BibliotecaOnline.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CodigoDeBarras,Estante,Setor,campus,Status,LivroId")] LivroExemplar livroExemplar)
+
+        public ActionResult Edit([Bind(Include = "Id,CodigoDeBarras,Estante,Setor,Campus,Status,LivroId")] LivroExemplar livroExemplar)
         {
             if (ModelState.IsValid)
             {
@@ -151,7 +152,8 @@ namespace BibliotecaOnline.Controllers
         }
 
         [HttpPost]
-        public JsonResult AutoCompletecampus(string campus)
+        public JsonResult AutoCompleteCampus(string campus)
+
         {
             var result = db.Cidades.Where(x => x.Nome.Contains(campus) || x.Codigo == campus).OrderBy(x => x.Nome).Select(x => new
             {

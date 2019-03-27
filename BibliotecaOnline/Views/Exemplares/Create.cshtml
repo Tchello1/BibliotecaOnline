@@ -26,9 +26,10 @@
             allowClear: true
         });
 
-     $("#campus").select2({
+
+     $("#Campus").select2({
         ajax: {
-           url: '@Url.Action("AutoCompletecampus", "Exemplares")',
+           url: '@Url.Action("AutoCompleteCampus", "Exemplares")',
             dataType: 'json',
             type: 'POST',
             delay: 250,
@@ -97,7 +98,7 @@
                             </div>
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Campus, htmlAttributes: new { @class = "" })
-                                <select id="campus" name="campus" class="form-control select2"></select>
+                                <select id="Campus" name="Campus" class="form-control select2"></select>
                                 @Html.ValidationMessageFor(model => model.Campus, "", new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
