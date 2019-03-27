@@ -1,5 +1,6 @@
 ﻿using BibliotecaOnline.Models;
 using BibliotecaOnline.Models.Enum;
+using BibliotecaOnline.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -15,10 +16,24 @@ namespace BibliotecaOnline.Controllers
         private Context db = new Context();
 
         // GET: Emprestimos
-        public ActionResult Index()
-        {
-            return View(db.Emprestimos.ToList());
-        }
+        //public ActionResult Index()
+        //{
+        //    IQueryable<EmprestimosViewModel> exemplares = (from l in db.Exemplares.Include(l => l.Livros)
+        //                                                   join c in db.Cidades on l.Campos equals c.Codigo
+        //                                                   join e in db.Emprestimos on l.Livros.Exemplares equals e.Emprestimos
+        //                                                   select new EmprestimosViewModel
+        //                                                   {
+        //                                                       CodigoDeBarras = l.CodigoDeBarras,
+        //                                                       Titulo = l.Livros.Titulo,
+        //                                                       Edicao = l.Livros.Edicao,
+        //                                                       Autor = l.Livros.Autor,
+        //                                                       Editora = l.Livros.Editora,
+        //                                                       Campus = "",
+                                                               
+        //                                                   });
+
+        //    return View(exemplares.ToList());
+        //}
 
         // GET: Emprestimos/Details/5
         public ActionResult Details(int? id)
@@ -145,6 +160,15 @@ namespace BibliotecaOnline.Controllers
             if (result == null)
             {
                 _mensagem = "Codigo de barras invalido ou produto nao existe";
+                return Json(new
+                {
+                    mensagem = _mensagem
+                }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                if (result.Status == LivroExemplarStatusEnum.Indiponivel)
+            {
+                _mensagem = "Exemplar indisponivel";
                 return Json(new
                 {
                     mensagem = _mensagem
