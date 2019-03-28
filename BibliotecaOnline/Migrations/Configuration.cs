@@ -12,6 +12,11 @@ namespace BibliotecaOnline.Migrations
 
         protected override void Seed(Context context)
         {
+            context.Pessoas.AddOrUpdate(x => x.Id,
+             new Pessoa { Matricula = "201412316039", Nome = "Jamil Zazu", Email = "jamillzazu@hotmail.com", Senha = "1234", Status = Models.Enum.PessoaStatusEnum.Ativo, Tipo = Models.Enum.TipoPessoaEnum.Usuario, UF = "MT", Cidade = "5103403" },
+             new Pessoa { Matricula = "1234", Nome = "Colaborador", Email = "colaborador@hotmail.com", Senha = "1234", Status = Models.Enum.PessoaStatusEnum.Ativo, Tipo = Models.Enum.TipoPessoaEnum.Colaborador, UF = "MT", Cidade = "5103403" });
+
+
             context.Estados.AddOrUpdate(x => x.CodigoUf,
              new Estado { CodigoUf = "12", Nome = "Acre", Uf = "AC", Regiao = "1" },
              new Estado { CodigoUf = "27", Nome = "Alagoas", Uf = "AL", Regiao = "2" },
