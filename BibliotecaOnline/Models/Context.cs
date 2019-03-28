@@ -11,7 +11,7 @@ namespace BibliotecaOnline.Models
         {
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;
-            Database.SetInitializer<Context>(null);
+            //Database.SetInitializer<Context>(null);
         }
 
         public DbSet<Pessoa> Pessoas { get; set; }

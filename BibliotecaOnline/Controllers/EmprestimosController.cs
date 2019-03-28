@@ -23,7 +23,7 @@ namespace BibliotecaOnline.Controllers
         {
             List<EmprestimosViewModel> emprestimo = (from x in db.Emprestimos
                                                      from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
-                                                     from c in db.Pessoas.Where(c => c.Id == x.UsuarioId).DefaultIfEmpty()
+                                                     from c in db.Pessoas.Where(c => c.Id == x.ColaboradorId).DefaultIfEmpty()
                                                      from ci in db.Cidades.Where(ci => ci.Codigo == u.Cidade).DefaultIfEmpty()
 
                                                      select new EmprestimosViewModel
