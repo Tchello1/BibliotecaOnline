@@ -27,5 +27,6 @@ namespace BibliotecaOnline.Models
         [Display(Name = "Edição")]
         public string Edicao { get; set; }
         public ICollection<LivroExemplar> Exemplares { get; set; }
+        public ICollection<EmprestimoItens> EmprestimoItens { get; set; }
     }
 }

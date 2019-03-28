@@ -60,36 +60,33 @@
                                     </tr>
                                     @foreach (var item in Model)
                                     {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Titulo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Edicao)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Autor)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Editora)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Ano)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Idioma)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.ISBN)
-                                        </td>
-
-                                        <td>
-                                            @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                                            @Html.ActionLink("Detalhes", "Details", new { id = item.Id })
-
-                                        </td>
-
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Titulo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Autor)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Editora)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Ano)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Idioma)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ISBN)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Edicao)
+                                            </td>
+                                            <td>
+                                                @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                                                @Html.ActionLink("Detalhes", "Details", new { id = item.Id })
+                                            </td>
+                                        </tr>
                                     }
                                 </tbody>
                             </table>

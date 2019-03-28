@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BibliotecaOnline.Models.Enum;
+using System;
 using System.Collections.Generic;
 
 namespace BibliotecaOnline.Models
@@ -10,7 +11,7 @@ namespace BibliotecaOnline.Models
             ColaboradorId = colaboradorId;
             UsuarioId = usuarioId;
             DataEmprestimo = dataEmprestimo;
-            Status = status;
+            Status = EmprestimosStatusEnum.Andamento;
         }
 
         public Emprestimo()
@@ -22,7 +23,7 @@ namespace BibliotecaOnline.Models
         public int ColaboradorId { get; set; }
         public int UsuarioId { get; set; }
         public DateTime DataEmprestimo { get; set; }
-        public int Status { get; set; }
+        public EmprestimosStatusEnum Status { get; set; }
 
         public ICollection<EmprestimoItens> EmprestimoItens { get; set; }
     }

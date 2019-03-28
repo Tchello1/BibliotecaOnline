@@ -1,40 +1,45 @@
-﻿    <!-- Left side column. contains the logo and sidebar -->
-<aside class="main-sidebar">
+﻿ <!-- Left side column. contains the logo and sidebar -->
+<aside id="aside_" class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
         <!-- Sidebar user panel -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
+
         <ul class="sidebar-menu" data-widget="tree">
             <li>
                 <a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> <span>Inicio</span></a>
             </li>
-            <li class="@Html.IsSelected(controller: "Usuarios") treeview">
-                <a href="@Url.Action("Index", "Usuarios" )">
-                    <i class="fa fa-plus-circle"></i> <span>Cadastros</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Livros" )"><i class="fa fa-circle-o"></i> Livros</a></li>
-                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Exemplares" )"><i class="fa fa-circle-o"></i> Exemplares</a></li>
-                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Usuarios" )"><i class="fa fa-circle-o"></i> Usuários</a></li>
-                </ul>
-            </li>
 
-            <li class="@Html.IsSelected(controller: "Emprestimos") treeview">
-                <a href="@Url.Action("Index", "Emprestimos")">
-                    <i class="fa fa-book"></i> <span>Livros</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Emprestimos" )"><i class="fa fa-circle-o"></i> Empréstimo</a></li>
-                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Devolucao", "Emprestimos" )"><i class="fa fa-circle-o"></i> Devolução</a></li>
-                    <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Renovacao", "Emprestimos")"><i class="fa fa-circle-o"></i> Renovação</a></li>
-                </ul>
-            </li>
+            @if (Session["Login_Tipo"] != "Usuario")
+            {
+                <li class="@Html.IsSelected(controller: "Usuarios") treeview">
+                    <a href="@Url.Action("Index", "Usuarios")">
+                        <i class="fa fa-plus-circle"></i> <span>Cadastros</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Livros")"><i class="fa fa-circle-o"></i> Livros</a></li>
+                        <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Exemplares")"><i class="fa fa-circle-o"></i> Exemplares</a></li>
+                        <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Usuarios")"><i class="fa fa-circle-o"></i> Usuários</a></li>
+                    </ul>
+                </li>
+
+                <li class="@Html.IsSelected(controller: "Emprestimos") treeview">
+                    <a href="@Url.Action("Index", "Emprestimos")">
+                        <i class="fa fa-book"></i> <span>Livros</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Index", "Emprestimos")"><i class="fa fa-circle-o"></i> Emprestimo</a></li>
+                        <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Devolucao", "Emprestimos")"><i class="fa fa-circle-o"></i> Devolucao</a></li>
+                        <li class="@Html.IsSelected(action: "Index")"><a href="@Url.Action("Renovacao", "Emprestimos")"><i class="fa fa-circle-o"></i> Renovacao</a></li>
+                    </ul>
+                </li>
+            }
         </ul>
     </section>
     <!-- /.sidebar -->

@@ -138,29 +138,21 @@
     <Compile Include="Controllers\LivrosController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
+    <Compile Include="Filters\Authentication.cs" />
+    <Compile Include="Filters\Sessao.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\HTMLHelperExtensions.cs" />
-    <Compile Include="Migrations\201903232110219_Initial.cs" />
-    <Compile Include="Migrations\201903232110219_Initial.Designer.cs">
-      <DependentUpon>201903232110219_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201903280124560_Emprestimo.cs" />
+    <Compile Include="Migrations\201903280124560_Emprestimo.Designer.cs">
+      <DependentUpon>201903280124560_Emprestimo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903242035288_Initial2.cs" />
-    <Compile Include="Migrations\201903242035288_Initial2.Designer.cs">
-      <DependentUpon>201903242035288_Initial2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903260359389_DataLimite.cs" />
-    <Compile Include="Migrations\201903260359389_DataLimite.Designer.cs">
-      <DependentUpon>201903260359389_DataLimite.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903260415589_DataLimite2.cs" />
-    <Compile Include="Migrations\201903260415589_DataLimite2.Designer.cs">
-      <DependentUpon>201903260415589_DataLimite2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903270019149_Campus.cs" />
-    <Compile Include="Migrations\201903270019149_Campus.Designer.cs">
-      <DependentUpon>201903270019149_Campus.cs</DependentUpon>
+    <Compile Include="Migrations\201903280140460_Emprestimo2.cs" />
+    <Compile Include="Migrations\201903280140460_Emprestimo2.Designer.cs">
+      <DependentUpon>201903280140460_Emprestimo2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cidade.cs" />
@@ -168,6 +160,7 @@
     <Compile Include="Models\Emprestimo.cs" />
     <Compile Include="Models\EmprestimoItens.cs" />
     <Compile Include="Models\Enum\LivroExemplarStatusEnum.cs" />
+    <Compile Include="Models\Enum\EmprestimosStatusEnum.cs" />
     <Compile Include="Models\Enum\PessoaStatusEnum.cs" />
     <Compile Include="Models\Enum\TipoPessoaEnum.cs" />
     <Compile Include="Models\Estado.cs" />
@@ -181,8 +174,10 @@
     <Compile Include="Models\Mappings\LivrosMapping.cs" />
     <Compile Include="Models\Mappings\PessoaMapping.cs" />
     <Compile Include="Models\Pessoa.cs" />
+    <Compile Include="Models\ViewModel\EmprestimoItensViewModel.cs" />
     <Compile Include="Models\ViewModel\EmprestimosViewModel.cs" />
     <Compile Include="Models\ViewModel\LivroExemplaresViewModel.cs" />
+    <Compile Include="Models\Login.cs" />
     <Compile Include="Models\ViewModel\PessoaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -4223,7 +4218,8 @@
     <Content Include="Views\Emprestimos\Details.cshtml" />
     <Content Include="Views\Emprestimos\Edit.cshtml" />
     <Content Include="Views\Emprestimos\Index.cshtml" />
-    <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Home\Index_.cshtml" />
     <None Include="Web.CustomProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -4253,20 +4249,11 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903232110219_Initial.resx">
-      <DependentUpon>201903232110219_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903280124560_Emprestimo.resx">
+      <DependentUpon>201903280124560_Emprestimo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903242035288_Initial2.resx">
-      <DependentUpon>201903242035288_Initial2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903260359389_DataLimite.resx">
-      <DependentUpon>201903260359389_DataLimite.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903260415589_DataLimite2.resx">
-      <DependentUpon>201903260415589_DataLimite2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903270019149_Campus.resx">
-      <DependentUpon>201903270019149_Campus.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903280140460_Emprestimo2.resx">
+      <DependentUpon>201903280140460_Emprestimo2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

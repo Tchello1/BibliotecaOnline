@@ -1,5 +1,7 @@
-﻿using BibliotecaOnline.Models;
+﻿using BibliotecaOnline.Filters;
+using BibliotecaOnline.Models;
 using BibliotecaOnline.Models.Enum;
+using BibliotecaOnline.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,33 +12,31 @@ using System.Web.Mvc;
 
 namespace BibliotecaOnline.Controllers
 {
+    [Authentication]
     public class EmprestimosController : Controller
     {
         private Context db = new Context();
+        private readonly Sessao sessao = new Sessao();
 
         // GET: Emprestimos
         public ActionResult Index()
         {
-            //public ActionResult Index()
-            //{
-            //    IQueryable<EmprestimosViewModel> exemplares = (from l in db.Exemplares.Include(l => l.Livros)
-            //                                                   join c in db.Cidades on l.Campus equals c.Codigo
-            //                                                   join e in db.Emprestimos on l.Livros.Exemplares equals e.Emprestimos
-            //                                                   select new EmprestimosViewModel
-            //                                                   {
-            //                                                       CodigoDeBarras = l.CodigoDeBarras,
-            //                                                       Titulo = l.Livros.Titulo,
-            //                                                       Edicao = l.Livros.Edicao,
-            //                                                       Autor = l.Livros.Autor,
-            //                                                       Editora = l.Livros.Editora,
-            //                                                       Campus = "",
+            List<EmprestimosViewModel> emprestimo = (from x in db.Emprestimos
+                                                     from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
+                                                     from c in db.Pessoas.Where(c => c.Id == x.UsuarioId).DefaultIfEmpty()
+                                                     from ci in db.Cidades.Where(ci => ci.Codigo == u.Cidade).DefaultIfEmpty()
 
-            //                                                   });
+                                                     select new EmprestimosViewModel
+                                                     {
+                                                         Id = x.Id,
+                                                         Usuario = u.Nome,
+                                                         Campus = ci.Nome + " - " + ci.UF,
+                                                         Emprestimo = x.DataEmprestimo,
+                                                         Colaborador = c.Nome
+                                                     }).ToList();
 
-            //    return View(exemplares.ToList());
-            //}
 
-            return View(db.Emprestimos.ToList());
+            return View(emprestimo);
         }
 
         // GET: Emprestimos/Details/5
@@ -46,11 +46,28 @@ namespace BibliotecaOnline.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Emprestimo emprestimo = db.Emprestimos.Find(id);
-            if (emprestimo == null)
-            {
-                return HttpNotFound();
-            }
+
+            List<EmprestimoItensViewModel> emprestimo = (from x in db.EmprestimoItens
+                                                         join l in db.Livros on x.LivroId equals l.Id
+                                                         join e in db.Exemplares on x.ExemplarId equals e.Id
+                                                         join u in db.Pessoas on x.UsuarioId equals u.Id
+                                                         where x.EmprestimoId == id
+                                                         select new EmprestimoItensViewModel
+                                                         {
+                                                             CodigoDeBarras = e.CodigoDeBarras,
+                                                             Titulo = l.Titulo,
+                                                             Edicao = l.Edicao,
+                                                             Idioma = l.Idioma,
+                                                             Editora = l.Editora,
+                                                             Autor = l.Autor,
+                                                             DataEmprestimo = x.DataEmprestimo,
+                                                             DataDevolucao = x.DataDevolucao,
+                                                             Status = x.Status,
+                                                             Usuario = u.Nome,
+                                                             Matricula = u.Matricula
+                                                         }).ToList();
+
+
             return View(emprestimo);
         }
 
@@ -71,26 +88,41 @@ namespace BibliotecaOnline.Controllers
                 emprestimo.DataEmprestimo = DateTime.Now;
                 emprestimo.ColaboradorId = 0;
                 emprestimo.UsuarioId = Convert.ToInt32(exemplars.Select(x => x.UsuarioId).FirstOrDefault());
-                emprestimo.Status = 1;
+                emprestimo.Status = EmprestimosStatusEnum.Andamento;
+                emprestimo.ColaboradorId = sessao.UsuarioId();
                 db.Emprestimos.Add(emprestimo);
                 db.SaveChanges();
 
                 EmprestimoItens itens = new EmprestimoItens();
+
                 DateTime DataLimite = DateTime.Now.AddDays(5);
 
                 foreach (EmprestimoItens item in exemplars)
                 {
                     itens.ColaboradorId = emprestimo.ColaboradorId;
                     itens.UsuarioId = emprestimo.UsuarioId;
+                    itens.ColaboradorId = emprestimo.ColaboradorId;
                     itens.DataEmprestimo = DateTime.Now;
                     itens.EmprestimoId = emprestimo.Id;
+                    itens.LivroId = db.Exemplares.Where(x => x.Id == item.ExemplarId).Select(x => x.LivroId).FirstOrDefault();
                     itens.ExemplarId = item.ExemplarId;
                     itens.DataDevolucao = null;
                     itens.DataRenovacao = null;
                     itens.DataLimite = DataLimite;
+                    itens.Status = LivroExemplarStatusEnum.Empresatado;
 
                     db.EmprestimoItens.Add(itens);
                     db.SaveChanges();
+
+
+                    LivroExemplar ex = db.Exemplares.Where(x => x.Id == item.ExemplarId).FirstOrDefault();
+
+                    if (item.ExemplarId == ex.Id)
+                    {
+                        ex.Status = LivroExemplarStatusEnum.Empresatado;
+                        db.Entry(ex).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
                 }
 
                 return RedirectToAction("Index");
@@ -170,7 +202,7 @@ namespace BibliotecaOnline.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
             else
-                if (result.Status == LivroExemplarStatusEnum.Indiponivel)
+                if (result.Status == LivroExemplarStatusEnum.Empresatado)
             {
                 _mensagem = "Exemplar indisponivel";
                 return Json(new
@@ -198,7 +230,7 @@ namespace BibliotecaOnline.Controllers
             string _mensagem = "ok";
             if (result == null)
             {
-                _mensagem = "Matricula invalidao ou usuario nao existe";
+                _mensagem = "Matricula invalida ou usuario nao existe";
                 return Json(new
                 {
                     mensagem = _mensagem

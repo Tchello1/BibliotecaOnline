@@ -29,9 +29,11 @@ namespace BibliotecaOnline.Models
         public int ColaboradorIdDevolucao { get; set; }
         public LivroExemplarStatusEnum Status { get; set; }
         public int EmprestimoId { get; set; }
-        public Emprestimo Emprestimos { get; set; }
+        public virtual Emprestimo Emprestimos { get; set; }
+        public int LivroId { get; set; }
+        public virtual Livro Livros { get; set; }
         public int ExemplarId { get; set; }
-        public LivroExemplar Exemplares { get; set; }
+        public virtual LivroExemplar Exemplares { get; set; }
 
 
         public void Renovar()
@@ -42,7 +44,7 @@ namespace BibliotecaOnline.Models
         }
         public void Devolucao()
         {
-            Status = LivroExemplarStatusEnum.Devolvido;
+            Status = LivroExemplarStatusEnum.Disponivel;
             DataDevolucao = DateTime.Now;
         }
     }
