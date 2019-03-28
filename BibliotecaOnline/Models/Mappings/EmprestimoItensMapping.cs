@@ -46,6 +46,13 @@ namespace BibliotecaOnline.Models.Mappings
             Property(x => x.ExemplarId)
             .IsRequired();
 
+            HasRequired(x => x.Livros)
+            .WithMany(x => x.EmprestimoItens)
+            .HasForeignKey(c => c.LivroId);
+
+            Property(x => x.ExemplarId)
+            .IsRequired();
+
             HasRequired(x => x.Exemplares)
             .WithMany(x => x.EmprestimoItens)
             .HasForeignKey(c => c.ExemplarId);

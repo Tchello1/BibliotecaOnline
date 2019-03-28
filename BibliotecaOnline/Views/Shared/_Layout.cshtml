@@ -12,11 +12,17 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     @if (IsSectionDefined("Styles"))
     {@RenderSection("Styles", required: false)}
+    <script src="~/Scripts/adminlte/components/jquery/dist/jquery.min.js"></script>
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini fixed">
     <div class="wrapper">
-        @Html.Partial("_Header")
-        @Html.Partial("_Sidebar")
+
+        @if (Session["Login_Id"] != null && Session["Logado"] != "1")
+        {
+            @Html.Partial("_Header")
+            @Html.Partial("_Sidebar")
+        }
         @RenderBody()
         @Html.Partial("_Footer")
         @*@Html.Partial("_Aside")*@

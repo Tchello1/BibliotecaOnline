@@ -3,7 +3,7 @@ namespace BibliotecaOnline.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class Emprestimo : DbMigration
     {
         public override void Up()
         {
@@ -25,20 +25,23 @@ namespace BibliotecaOnline.Migrations
                         ColaboradorId = c.Int(nullable: false),
                         UsuarioId = c.Int(nullable: false),
                         DataEmprestimo = c.DateTime(nullable: false),
-                        DataRenovacao = c.DateTime(nullable: false),
-                        ColaboradorIdRenovacao = c.Int(nullable: false),
-                        DataDevolucao = c.DateTime(nullable: false),
-                        ColaboradorIdDevolucao = c.Int(nullable: false),
+                        DataLimite = c.DateTime(),
+                        DataRenovacao = c.DateTime(),
+                        ColaboradorIdRenovacao = c.Int(),
+                        DataDevolucao = c.DateTime(),
+                        ColaboradorIdDevolucao = c.Int(),
                         Status = c.Int(nullable: false),
                         EmprestimoId = c.Int(nullable: false),
+                        LivroId = c.Int(nullable: false),
                         ExemplarId = c.Int(nullable: false),
-                        Exemplares_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Emprestimos", t => t.EmprestimoId)
-                .ForeignKey("dbo.Exemplares", t => t.Exemplares_Id)
+                .ForeignKey("dbo.Exemplares", t => t.ExemplarId)
+                .ForeignKey("dbo.Livros", t => t.LivroId)
                 .Index(t => t.EmprestimoId)
-                .Index(t => t.Exemplares_Id);
+                .Index(t => t.LivroId)
+                .Index(t => t.ExemplarId);
             
             CreateTable(
                 "dbo.Emprestimos",
@@ -60,7 +63,7 @@ namespace BibliotecaOnline.Migrations
                         CodigoDeBarras = c.String(maxLength: 200, unicode: false),
                         Estante = c.String(maxLength: 200, unicode: false),
                         Setor = c.String(maxLength: 200, unicode: false),
-                        campus = c.String(nullable: false, maxLength: 200, unicode: false),
+                        Campus = c.String(nullable: false, maxLength: 200, unicode: false),
                         Quantidade = c.Int(),
                         Status = c.Int(nullable: false),
                         LivroId = c.Int(nullable: false),
@@ -115,11 +118,13 @@ namespace BibliotecaOnline.Migrations
         
         public override void Down()
         {
-            DropForeignKey("dbo.EmprestimoItens", "Exemplares_Id", "dbo.Exemplares");
+            DropForeignKey("dbo.EmprestimoItens", "LivroId", "dbo.Livros");
+            DropForeignKey("dbo.EmprestimoItens", "ExemplarId", "dbo.Exemplares");
             DropForeignKey("dbo.Exemplares", "LivroId", "dbo.Livros");
             DropForeignKey("dbo.EmprestimoItens", "EmprestimoId", "dbo.Emprestimos");
             DropIndex("dbo.Exemplares", new[] { "LivroId" });
-            DropIndex("dbo.EmprestimoItens", new[] { "Exemplares_Id" });
+            DropIndex("dbo.EmprestimoItens", new[] { "ExemplarId" });
+            DropIndex("dbo.EmprestimoItens", new[] { "LivroId" });
             DropIndex("dbo.EmprestimoItens", new[] { "EmprestimoId" });
             DropTable("dbo.Pessoas");
             DropTable("dbo.Estados");

@@ -1,50 +1,131 @@
-﻿@model BibliotecaOnline.Models.Emprestimo
+﻿@model IEnumerable<BibliotecaOnline.Models.ViewModel.EmprestimoItensViewModel>
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Empréstimos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Details</h2>
-
-<div>
-    <h4>Emprestimo</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ColaboradorId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ColaboradorId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UsuarioId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UsuarioId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DataEmprestimo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DataEmprestimo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-    </dl>
+<script>
+    $(document).ready(function () {
+        $("#Matricula").val('@Model.Select(x => x.Matricula).FirstOrDefault()');
+        $("#Nome").val('@Model.Select(x => x.Usuario).FirstOrDefault()');
+        $("#Emprestimo").val('@Model.Select(x => x.DataEmprestimo).FirstOrDefault()');
+        $("#Devolucao").val('@Model.Select(x => x.DataDevolucao).FirstOrDefault()');
+    });
+</script>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <br />
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Empréstimos</a></li>
+            <li><a href="#">Lista de Livros</a></li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Dados do Emprestimo</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                   
+                    <div class="box-body">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Matricula</label>
+                                @Html.Editor("Matricula", new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label>Nome</label>
+                                    @Html.Editor("Nome", new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label>Data do Emprestimo</label>
+                                    @Html.Editor("Emprestimo", new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label>Data da Devolucao</label>
+                                    @Html.Editor("Devolucao", new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Lista de livros</h3>
+                </div>
+                <div class="div_">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <table class="table table-bordered col-md-12">
+                                <tbody>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CodigoDeBarras)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Titulo)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Edicao)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Editora)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Autor)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Status)
+                                        </th>
+                                    </tr>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CodigoDeBarras)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Titulo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Edicao)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Editora)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Autor)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(model => item.Status)
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
