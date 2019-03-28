@@ -1,4 +1,5 @@
-﻿using BibliotecaOnline.Models;
+﻿using BibliotecaOnline.Filters;
+using BibliotecaOnline.Models;
 using BibliotecaOnline.Models.Enum;
 using BibliotecaOnline.ViewModel;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace BibliotecaOnline.Controllers
 {
+    [Authentication]
     public class UsuariosController : Controller
     {
         private Context db = new Context();
