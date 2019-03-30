@@ -4,6 +4,7 @@
     {
         Empresatado = 1,
         Reservado = 2,
-        Disponivel = 3
+        Disponivel = 3,
+        Devolvido = 4
     }
 }

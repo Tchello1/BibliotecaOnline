@@ -1,4 +1,8 @@
+
+﻿using BibliotecaOnline.Models.Enum;
+
 ﻿using System.ComponentModel.DataAnnotations;
+
 
 namespace BibliotecaOnline.Models.ViewModel
 {
@@ -13,5 +17,6 @@ namespace BibliotecaOnline.Models.ViewModel
         public string Estante { get; set; }
         public string Setor { get; set; }
         public string Campus { get; set; }
+        public LivroExemplarStatusEnum Status { get; set; }
     }
 }

@@ -1,11 +1,9 @@
-﻿@model IEnumerable<BibliotecaOnline.Models.ViewModel.LivroExemplaresViewModel>
+﻿@model IEnumerable<BibliotecaOnline.Models.ViewModel.EmprestimosViewModel>
+
 @{
-    ViewBag.Title = "Exemplares";
+    ViewBag.Title = "Devoluções";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -13,8 +11,8 @@
             <br />
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i>Exemplares</a></li>
-            <li><a href="#">Novo Exemplar</a></li>
+            <li><a href="#"><i class="fa fa-dashboard"></i>Devoluções</a></li>
+            <li><a href="#">Lista de Devoluções </a></li>
         </ol>
     </section>
     <!-- Main content -->
@@ -22,35 +20,32 @@
         <div class="row">
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Lista de Exemplares</h3>
+                    <h3 class="box-title">Lista de Devoluções</h3>
                     <div class="pull-right">
-                        <a href="@Url.Action("Create", "Exemplares")" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
+                        <a href="@Url.Action("Create", "Devolucoes")" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
                     </div>
                 </div>
                 <div class="div_">
                     <!-- /.box-header -->
                     <div class="box-body">
                         <div class="form-group">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered col-md-12">
                                 <tbody>
                                     <tr>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Titulo)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.CodigoDeBarras)
+                                            @Html.DisplayNameFor(model => model.Usuario)
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.Campus)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Estante)
+                                            @Html.DisplayNameFor(model => model.Emprestimo)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Setor)
+                                            @Html.DisplayNameFor(model => model.Devolucao)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Status)
+                                            @Html.DisplayNameFor(model => model.Colaborador)
                                         </th>
                                         <th></th>
                                     </tr>
@@ -58,29 +53,21 @@
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Titulo)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.CodigoDeBarras)
+                                                @Html.DisplayFor(modelItem => item.Usuario)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Campus)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Estante)
+                                                @Html.DisplayFor(modelItem => item.Emprestimo)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Setor)
+                                                @Html.DisplayFor(modelItem => item.Devolucao)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Status)
+                                                @Html.DisplayFor(modelItem => item.Colaborador)
                                             </td>
-                                            <td>
-                                                @if (item.Status.ToString() == "Disponivel")
-                                                {
-                                                    @Html.ActionLink("Editar", "Edit", new { id = item.Id })
-                                                }
-                                            </td>
+                                            <td> @Html.ActionLink("Detalhes", "Details", new { id = item.Id })</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -92,3 +79,5 @@
         </div>
     </section>
 </div>
+
+

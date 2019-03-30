@@ -1,5 +1,6 @@
 ﻿using BibliotecaOnline.Filters;
 using BibliotecaOnline.Models;
+using BibliotecaOnline.Models.Enum;
 using BibliotecaOnline.Models.ViewModel;
 using System;
 using System.Data.Entity;
@@ -20,17 +21,18 @@ namespace BibliotecaOnline.Controllers
         {
 
             IQueryable<LivroExemplaresViewModel> exemplares = (from l in db.Exemplares.Include(l => l.Livros)
-                                                          join c in db.Cidades on l.Campus equals c.Codigo
-                                                          select new LivroExemplaresViewModel
-                                                          {
-                                                              Id = l.Id,
-                                                              Titulo = l.Livros.Titulo,
-                                                              Autor = l.Livros.Autor,
-                                                              CodigoDeBarras = l.CodigoDeBarras,
-                                                              Estante = l.Estante,
-                                                              Setor = l.Setor,
-                                                              Campus = c.Nome + " - " + c.UF
-                                                          });
+                                                               join c in db.Cidades on l.Campus equals c.Codigo
+                                                               select new LivroExemplaresViewModel
+                                                               {
+                                                                   Id = l.Id,
+                                                                   Titulo = l.Livros.Titulo,
+                                                                   Autor = l.Livros.Autor,
+                                                                   CodigoDeBarras = l.CodigoDeBarras,
+                                                                   Estante = l.Estante,
+                                                                   Setor = l.Setor,
+                                                                   Campus = c.Nome + " - " + c.UF,
+                                                                   Status = l.Status
+                                                               });
 
             return View(exemplares.ToList());
         }
@@ -80,6 +82,7 @@ namespace BibliotecaOnline.Controllers
                         codigoDeBarras = codigoDeBarras.Substring(0, 20);
                     }
                     livroExemplar.CodigoDeBarras = codigoDeBarras;
+                    livroExemplar.Status = LivroExemplarStatusEnum.Disponivel;
                     db.Exemplares.Add(livroExemplar);
 
                     db.SaveChanges();

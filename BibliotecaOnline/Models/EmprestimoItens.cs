@@ -42,10 +42,5 @@ namespace BibliotecaOnline.Models
             DataRenovacao = DateTime.Now;
             ColaboradorIdRenovacao = 0;
         }
-        public void Devolucao()
-        {
-            Status = LivroExemplarStatusEnum.Disponivel;
-            DataDevolucao = DateTime.Now;
-        }
     }
 }
