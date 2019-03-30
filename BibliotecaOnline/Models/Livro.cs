@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BibliotecaOnline.Models
 {
@@ -16,12 +17,14 @@ namespace BibliotecaOnline.Models
         }
         public Livro() { }
         public int Id { get; set; }
+        [Display(Name = "Título")]
         public string Titulo { get; set; }
         public string Autor { get; set; }
         public string Editora { get; set; }
         public string Ano { get; set; }
         public string Idioma { get; set; }
         public string ISBN { get; set; }
+        [Display(Name = "Edição")]
         public string Edicao { get; set; }
         public ICollection<LivroExemplar> Exemplares { get; set; }
         public ICollection<EmprestimoItens> EmprestimoItens { get; set; }
