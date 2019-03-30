@@ -1,4 +1,6 @@
-﻿namespace BibliotecaOnline.Models.ViewModel
+﻿using BibliotecaOnline.Models.Enum;
+
+namespace BibliotecaOnline.Models.ViewModel
 {
     public class LivroExemplaresViewModel
     {
@@ -9,5 +11,6 @@
         public string Estante { get; set; }
         public string Setor { get; set; }
         public string Campus { get; set; }
+        public LivroExemplarStatusEnum Status { get; set; }
     }
 }

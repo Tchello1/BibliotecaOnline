@@ -1,13 +1,12 @@
 ﻿@model BibliotecaOnline.Models.Emprestimo
 @{
-    ViewBag.Title = "Empréstimos ";
+    ViewBag.Title = "Devoluções ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="~/Scripts/adminlte/components/jquery/dist/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
         $('#salvar').attr('disabled', 'disabled');
-        $('#inserir').attr('disabled', 'disabled');
 
         var codigoBarras = "";
 
@@ -39,16 +38,6 @@
             }
         });
 
-        $("#matricula").on("keyup", function (e) {
-            e.preventDefault();
-            var keyCode = e.keyCode || e.which;
-
-            if (keyCode === 13) {
-                VerificarUsuarioEmprestimo($("#matricula").val());
-                $("#CodigoDeBarras").focus();
-            }
-        });
-
         $('#table').on('click', ".remove", function () {
             $(this).closest('tr').remove();
 
@@ -61,13 +50,6 @@
             console.log(rowCount);
         });
 
-        $("#pesquisar").click(function () {
-            VerificarUsuarioEmprestimo($("#matricula").val());
-        });
-
-        $("#autenticar").click(function () {
-            AutenticaEmprestimo($("#usuarioId").val(), $("#senha").val());
-        });
         $("#inserir").click(function () {
               codigoBarras = $("#CodigoDeBarras").val();
             var existe = 0;
@@ -83,13 +65,29 @@
             }
         });
 
-        function VerificarCodigoDeBarras() {
+        $("#salvar").click(function () {
+            var dados_emprestimo = [];
+
+            $('.item').each(function () {
+                var entidade_exemplar = {
+                    ExemplarId: $(this).children()[0].innerText,
+                    CodigoDeBarras: $(this).children()[1].innerText
+                };
+
+                dados_emprestimo.push(entidade_exemplar);
+            });
+
+            enviarDados(dados_emprestimo);
+        });
+
+
+         function VerificarCodigoDeBarras() {
              $.ajax({
-                        url: '@Url.Action("PesquisaCodigoDeBarras", "Emprestimos")',
+                        url: '@Url.Action("PesquisaCodigoDeBarras", "Devolucoes")',
                         dataType: 'json',
                         type: "POST",
                  cache: false,
-                 data: { codigo: codigoBarras, usuarioId: $("#usuarioId").val() },
+                 data: { codigo: codigoBarras },
                         success: function (data) {
                             if (data.mensagem == "ok") {
                                 var titulo = data.titulo;
@@ -109,158 +107,48 @@
                     });
         }
 
-        function VerificarUsuarioEmprestimo(matricula) {
-             $.ajax({
-                        url: '@Url.Action("EmprestimoALuno", "Emprestimos")',
-                        dataType: 'json',
-                        type: "POST",
-                        cache: false,
-                 data: { matricula: matricula },
-                        success: function (data) {
-                            if (data.mensagem == "ok") {
-                                var usuarioId = data.usuarioId;
-                                var nome = data.nome;
-
-                                $("#usuarioId").val(usuarioId);
-                                $("#nome").val(nome);
-
-                                $('#inserir').removeAttr('disabled');
-                            }
-                            else {
-                                alert(data.mensagem);
-                                $("#nome").val("");
-                                $("#matricula").focus();
-                            }
-                        }
-                    });
-        }
-
-        function AutenticaEmprestimo(usuarioId, senha) {
-            console.log(usuarioId);
-            $.ajax({
-                url: '@Url.Action("AutenticaEmprestimo", "Emprestimos")',
-                dataType: 'json',
-                type: "POST",
-                cache: false,
-                data: { usuarioId: usuarioId, senha: senha },
-                success: function (data) {
-                    if (data.mensagem == "ok") {
-                         var dados_emprestimo = [];
-
-                        $('.item').each(function () {
-                            var entidade_exemplar = {
-                                ExemplarId: $(this).children()[0].innerText,
-                                CodigoDeBarras: $(this).children()[1].innerText,
-                                UsuarioId: usuarioId
-                            };
-
-                        dados_emprestimo.push(entidade_exemplar);
-                        });
-
-                        enviarDados(dados_emprestimo);
-                        $('#salvar').attr('disabled', 'disabled');
-
-                        var delay = 1000;
-                        setTimeout(function () { window.location = '/Emprestimos/Index/'; }, delay);
-                    }
-                    else {
-                        alert(data.mensagem);
-                    }
-                }
-            });
-        };
-
         function enviarDados(dados_emprestimo) {
             var exemplars = JSON.stringify({ 'exemplars': dados_emprestimo });
             console.log(JSON.stringify( dados_emprestimo ));
             $.ajax({
                 method: "POST",
-                url: '@Url.Action("Create", "Emprestimos")',
+                url: '@Url.Action("Create", "Devolucoes")',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                data: exemplars
-           });
-        };
+                data: exemplars,
+                success: function (data) {
+                    if (data.mensagem == "ok") {
+                        $('#salvar').attr('disabled', 'disabled');
+                        var delay = 1000;
+                        setTimeout(function () { window.location = '/Devolucoes/Index/'; }, delay);
+                    }
+           }
+        });
+        }
     });
-
 </script>
-@using (Html.BeginForm("Create", "Emprestimos", FormMethod.Post, new { @id = "form" }))
+@using (Html.BeginForm("Create", "Devolucoes", FormMethod.Post, new { @id = "form" }))
 {
+    @Html.AntiForgeryToken()
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
                 <br />
             </h1>
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i>Empréstimos</a></li>
-                <li><a href="#">Novo Empréstimo</a></li>
+                <li><a href="#"><i class="fa fa-dashboard"></i>Devolução </a></li>
+                <li><a href="#">Nova Devolução</a></li>
             </ol>
         </section>
         <!-- Main content -->
         <section class="content">
-            <div class="modal" id="myModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Autenticacao</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <div>
-                                    <label>Senha</label>
-                                    <input type="password" id="senha" name="senha" class="form-control" placeholder="Senha" required autocomplete="off" />
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="box-footer">
-                            <button type="button" id="autenticar" class="btn btn-primary pull-right">Autenticar</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <!-- left column -->
                 <div class="">
                     <!-- general form elements -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Usuario</h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="form-group">
-                                <div class="form-group">
-                                    <label>Matricula</label>
-                                    <div class="input-group">
-                                        <input type="text" id="matricula" name="matricula" class="form-control" placeholder="RGA ou Codigo do Professor" required autocomplete="off" />
-                                        <span class="input-group-btn">
-                                            <button type="button" id="pesquisar" class="btn btn-primary pull-right">Pesquisar</button>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div>
-                                        <label>Nome</label>
-                                        <input type="text" id="usuarioId" name="usuarioId" class="hide" />
-                                        <input type="text" id="nome" name="nome" class="form-control" disabled />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <!-- left column -->
-                <div class="">
-                    <!-- general form elements -->
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Empréstimos</h3>
+                            <h3 class="box-title">Devolução</h3>
                         </div>
                         <div class="box-body">
                             <div class="form-group">
@@ -317,8 +205,8 @@
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button type="button" id="salvar" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Salvar</button>
-                        <a href="@Url.Action("Index", "Emprestimos")" class="btn btn-default">Voltar</a>
+                        <button type="button" id="salvar" class="btn btn-primary pull-right">Salvar</button>
+                        <a href="@Url.Action("Index", "Devolucoes")" class="btn btn-default">Voltar</a>
                     </div>
                 </div>
             </div>

@@ -22,10 +22,10 @@ namespace BibliotecaOnline.Controllers
         public ActionResult Index()
         {
             List<EmprestimosViewModel> emprestimo = (from x in db.Emprestimos
+                                                     join c in db.Pessoas on x.ColaboradorId equals c.Id
+                                                     join ci in db.Cidades on c.Cidade equals ci.Codigo
                                                      from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
-                                                     from c in db.Pessoas.Where(c => c.Id == x.ColaboradorId).DefaultIfEmpty()
-                                                     from ci in db.Cidades.Where(ci => ci.Codigo == u.Cidade).DefaultIfEmpty()
-
+                                                     where c.Cidade == u.Cidade
                                                      select new EmprestimosViewModel
                                                      {
                                                          Id = x.Id,
@@ -189,10 +189,22 @@ namespace BibliotecaOnline.Controllers
         }
 
         [HttpPost]
-        public JsonResult PesquisaCodigoDeBarras(string codigo)
+        public JsonResult PesquisaCodigoDeBarras(string codigo, int usuarioId)
         {
             LivroExemplar result = db.Exemplares.Where(x => x.CodigoDeBarras == codigo).Include(x => x.Livros).FirstOrDefault();
+
+            EmprestimoItens emprestimo = db.EmprestimoItens.Where(x => x.LivroId == result.LivroId && x.UsuarioId == usuarioId && x.Exemplares.Status == LivroExemplarStatusEnum.Empresatado).FirstOrDefault();
             string _mensagem = "ok";
+
+            if (emprestimo != null)
+            {
+                _mensagem = "Este usuario ja possui um exemplar deste livro";
+                return Json(new
+                {
+                    mensagem = _mensagem
+                }, JsonRequestBehavior.AllowGet);
+            }
+
             if (result == null)
             {
                 _mensagem = "Codigo de barras invalido ou produto nao existe";
