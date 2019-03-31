@@ -109,7 +109,7 @@ namespace BibliotecaOnline.Controllers
                     itens.DataDevolucao = null;
                     itens.DataRenovacao = null;
                     itens.DataLimite = DataLimite;
-                    itens.Status = LivroExemplarStatusEnum.Empresatado;
+                    itens.Status = LivroExemplarStatusEnum.Emprestado;
 
                     db.EmprestimoItens.Add(itens);
                     db.SaveChanges();
@@ -119,7 +119,7 @@ namespace BibliotecaOnline.Controllers
 
                     if (item.ExemplarId == ex.Id)
                     {
-                        ex.Status = LivroExemplarStatusEnum.Empresatado;
+                        ex.Status = LivroExemplarStatusEnum.Emprestado;
                         db.Entry(ex).State = EntityState.Modified;
                         db.SaveChanges();
                     }
@@ -193,7 +193,7 @@ namespace BibliotecaOnline.Controllers
         {
             LivroExemplar result = db.Exemplares.Where(x => x.CodigoDeBarras == codigo).Include(x => x.Livros).FirstOrDefault();
 
-            EmprestimoItens emprestimo = db.EmprestimoItens.Where(x => x.LivroId == result.LivroId && x.UsuarioId == usuarioId && x.Exemplares.Status == LivroExemplarStatusEnum.Empresatado).FirstOrDefault();
+            EmprestimoItens emprestimo = db.EmprestimoItens.Where(x => x.LivroId == result.LivroId && x.UsuarioId == usuarioId && x.Exemplares.Status == LivroExemplarStatusEnum.Emprestado).FirstOrDefault();
             string _mensagem = "ok";
 
             if (emprestimo != null)
@@ -214,7 +214,7 @@ namespace BibliotecaOnline.Controllers
                 }, JsonRequestBehavior.AllowGet);
             }
             else
-                if (result.Status == LivroExemplarStatusEnum.Empresatado)
+                if (result.Status == LivroExemplarStatusEnum.Emprestado)
             {
                 _mensagem = "Exemplar indisponivel";
                 return Json(new

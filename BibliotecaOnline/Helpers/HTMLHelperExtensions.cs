@@ -34,6 +34,5 @@ namespace BibliotecaOnline
             string currentAction = (string)html.ViewContext.RouteData.Values["action"];
             return currentAction;
         }
-
     }
 }

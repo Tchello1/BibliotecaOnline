@@ -54,7 +54,7 @@ namespace BibliotecaOnline.Controllers
         public ActionResult LogOut()
         {
             sessao.Logout();
-            return RedirectToAction("Index", "Login", null);
+            return RedirectToAction("Index_", "Login", null);
         }
     }
 }
