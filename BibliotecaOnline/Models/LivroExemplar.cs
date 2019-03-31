@@ -12,7 +12,7 @@ namespace BibliotecaOnline.Models
             Estante = estante;
             Setor = setor;
             Campus = campus;
-            Status = LivroExemplarStatusEnum.Empresatado;
+            Status = LivroExemplarStatusEnum.Emprestado;
             LivroId = livroId;
             EmprestimoItens itens = new EmprestimoItens();
         }

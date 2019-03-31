@@ -10,7 +10,7 @@ namespace BibliotecaOnline.Models
             ColaboradorId = colaboradorId;
             UsuarioId = usuarioId;
             DataEmprestimo = dataEmprestimo;
-            Status = LivroExemplarStatusEnum.Empresatado;
+            Status = LivroExemplarStatusEnum.Emprestado;
             EmprestimoId = emprestimoId;
         }
 

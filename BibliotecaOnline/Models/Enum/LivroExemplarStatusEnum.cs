@@ -2,9 +2,9 @@
 {
     public enum LivroExemplarStatusEnum
     {
-        Empresatado = 1,
+        Disponivel = 0,
+        Emprestado = 1,
         Reservado = 2,
-        Disponivel = 3,
         Devolvido = 4
     }
 }

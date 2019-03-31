@@ -11,6 +11,8 @@ namespace BibliotecaOnline.Models.ViewModel
         public int Id { get; set; }
         [Display(Name = "Título")]
         public string Titulo { get; set; }
+        public string Edicao { get; set; }
+        public string Editora { get; set; }
         public string Autor { get; set; }
         [Display(Name = "Código de barras")]
         public string CodigoDeBarras { get; set; }

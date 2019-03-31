@@ -118,7 +118,7 @@ namespace BibliotecaOnline.Controllers
             {
                 LivroExemplar result = db.Exemplares.Where(x => x.CodigoDeBarras == codigo.Replace(" ", "")).Include(x => x.Livros).FirstOrDefault();
 
-                EmprestimoItens emprestimo = db.EmprestimoItens.Where(x => x.LivroId == result.LivroId && x.Exemplares.Status == LivroExemplarStatusEnum.Empresatado).FirstOrDefault();
+                EmprestimoItens emprestimo = db.EmprestimoItens.Where(x => x.LivroId == result.LivroId && x.Exemplares.Status == LivroExemplarStatusEnum.Emprestado).FirstOrDefault();
                 string _mensagem = "ok";
 
                 if (result == null)

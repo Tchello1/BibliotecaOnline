@@ -27,6 +27,8 @@ namespace BibliotecaOnline.Controllers
                                                                    Id = l.Id,
                                                                    Titulo = l.Livros.Titulo,
                                                                    Autor = l.Livros.Autor,
+                                                                   Edicao = l.Livros.Edicao,
+                                                                   Editora = l.Livros.Editora,
                                                                    CodigoDeBarras = l.CodigoDeBarras,
                                                                    Estante = l.Estante,
                                                                    Setor = l.Setor,

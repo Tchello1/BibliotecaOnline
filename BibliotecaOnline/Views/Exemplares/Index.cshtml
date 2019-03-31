@@ -35,10 +35,19 @@
                                 <tbody>
                                     <tr>
                                         <th>
+                                            @Html.DisplayNameFor(model => model.CodigoDeBarras)
+                                        </th>
+                                        <th>
                                             @Html.DisplayNameFor(model => model.Titulo)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.CodigoDeBarras)
+                                            @Html.DisplayNameFor(model => model.Edicao)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Edicao)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Editora)
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.Campus)
@@ -58,10 +67,19 @@
                                     {
                                         <tr>
                                             <td>
+                                                @Html.DisplayFor(modelItem => item.CodigoDeBarras)
+                                            </td>
+                                            <td>
                                                 @Html.DisplayFor(modelItem => item.Titulo)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.CodigoDeBarras)
+                                                @Html.DisplayFor(modelItem => item.Edicao)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Autor)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Editora)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Campus)
