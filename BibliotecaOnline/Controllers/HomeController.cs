@@ -8,11 +8,12 @@ using System.Web.Mvc;
 
 namespace BibliotecaOnline.Controllers
 {
-    [Authentication]
     public class HomeController : Controller
     {
         private readonly Context db = new Context();
+        private readonly Sessao sessao = new Sessao();
 
+        [Authentication]
         public ActionResult Index()
         {
             return View();
@@ -21,6 +22,11 @@ namespace BibliotecaOnline.Controllers
         [AllowAnonymous]
         public ActionResult Index_()
         {
+            if (sessao.VerificaSessao() == true)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
 

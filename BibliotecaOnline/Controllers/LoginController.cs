@@ -26,7 +26,7 @@ namespace BibliotecaOnline.Controllers
         // POST: Login
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Index(Login model, string returnUrl)
+        public ActionResult Index(Login model, string ReturnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -36,9 +36,9 @@ namespace BibliotecaOnline.Controllers
                 if (user != null)
                 {
                     sessao.Login(user);
-                    if (returnUrl != null && returnUrl != "")
+                    if (ReturnUrl != null && ReturnUrl != "")
                     {
-                        return Redirect(returnUrl);
+                        return Redirect(ReturnUrl);
                     }
                     else
                     {
@@ -54,7 +54,7 @@ namespace BibliotecaOnline.Controllers
         public ActionResult LogOut()
         {
             sessao.Logout();
-            return RedirectToAction("Index_", "Login", null);
+            return RedirectToAction("Index_", "Home", null);
         }
     }
 }
