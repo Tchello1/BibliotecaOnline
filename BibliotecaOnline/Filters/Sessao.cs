@@ -125,6 +125,7 @@ namespace BibliotecaOnline.Filters
                         Session["Login_Id"] = cook["Login_Id"];
                         Session["Login_Nome"] = cook["Login_Nome"];
                         Session["Login_Matricula"] = cook["Login_Matricula"];
+                        Session["Login_Tipo"] = cook["Login_Tipo"];
 
                         System.Web.HttpContext.Current.Response.AppendCookie(cook);
                         flag = true;
