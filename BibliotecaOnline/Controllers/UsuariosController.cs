@@ -149,6 +149,26 @@ namespace BibliotecaOnline.Controllers
             return Json(selectList, JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpPost]
+        public JsonResult VerificaUsuario(string matricula)
+        {
+            Pessoa result = db.Pessoas.Where(x => x.Matricula == matricula && x.Tipo == TipoPessoaEnum.Usuario).FirstOrDefault();
+            string _mensagem = "ok";
+            if (result == null)
+            {
+                return Json(new
+                {
+                    mensagem = _mensagem
+                }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new
+            {
+                mensagem = "Matricua ja vinculada a outro usuario"
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

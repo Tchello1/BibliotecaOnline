@@ -10,7 +10,7 @@
                 <a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> <span>Inicio</span></a>
             </li>
 
-            @if (Session["Login_Tipo"] != "Usuario")
+            @if (Session["Login_Tipo"].ToString() != "Usuario")
             {
                 <li class="@Html.IsSelected(controller: "Usuarios") treeview">
                     <a href="@Url.Action("Index", "Usuarios")">

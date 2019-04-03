@@ -21,9 +21,9 @@ namespace BibliotecaOnline.Controllers
         public ActionResult Index()
         {
             List<EmprestimosViewModel> devolucao = (from x in db.Emprestimos
-                                                    join i in db.EmprestimoItens on x.Id equals i.EmprestimoId
-                                                    join c in db.Pessoas on i.ColaboradorIdDevolucao equals c.Id
-                                                    join ci in db.Cidades on c.Cidade equals ci.Codigo
+                                                    from i in db.EmprestimoItens.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
+                                                    from c in db.Pessoas.Where(c => c.Id == i.ColaboradorIdDevolucao).DefaultIfEmpty()
+                                                    from ci in db.Cidades.Where(ci => ci.Codigo == c.Cidade).DefaultIfEmpty()
                                                     from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
                                                     where c.Cidade == u.Cidade && i.Status == LivroExemplarStatusEnum.Devolvido
                                                     select new EmprestimosViewModel
@@ -35,6 +35,26 @@ namespace BibliotecaOnline.Controllers
                                                         Devolucao = i.DataDevolucao,
                                                         Colaborador = c.Nome
                                                     }).ToList();
+
+
+            //var teste = (from x in db.Emprestimos
+            //               join i in db.EmprestimoItens on x.Id equals i.EmprestimoId
+            //             //join c in db.Pessoas on i.ColaboradorIdDevolucao equals c.Id
+            //             from c in db.Pessoas.Where(c => c.Id == i.ColaboradorIdDevolucao).DefaultIfEmpty()
+            //             join ci in db.Cidades on c.Cidade equals ci.Codigo
+            //               from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
+
+            //             where c.Cidade == u.Cidade && i.Status == LivroExemplarStatusEnum.Devolvido
+            //               select new EmprestimosViewModel
+            //               {
+            //                   Id = x.Id,
+            //                   Usuario = u.Nome,
+            //                   Campus = ci.Nome + " - " + ci.UF,
+            //                   Emprestimo = x.DataEmprestimo,
+            //                   Devolucao = i.DataDevolucao,
+            //                   Colaborador = c.Nome
+            //               });
+
             return View(devolucao);
         }
 
@@ -46,9 +66,13 @@ namespace BibliotecaOnline.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             List<EmprestimoItensViewModel> devolucao = (from x in db.EmprestimoItens
-                                                        join l in db.Livros on x.LivroId equals l.Id
-                                                        join e in db.Exemplares on x.ExemplarId equals e.Id
-                                                        join u in db.Pessoas on x.UsuarioId equals u.Id
+                                                        from l in db.Livros.Where(l => l.Id == x.LivroId).DefaultIfEmpty()
+                                                        from e in db.Exemplares.Where(e => e.Id == x.ExemplarId).DefaultIfEmpty()
+                                                        from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
+
+
+
+
                                                         where x.EmprestimoId == id && x.Status == Models.Enum.LivroExemplarStatusEnum.Devolvido
                                                         select new EmprestimoItensViewModel
                                                         {
@@ -85,20 +109,32 @@ namespace BibliotecaOnline.Controllers
             {
                 foreach (EmprestimoItens item in exemplars)
                 {
-                    LivroExemplar exemplar = db.Exemplares.Find(item.ExemplarId);
-                    exemplar.Status = LivroExemplarStatusEnum.Disponivel;
+                    LivroExemplar exemplar = db.Exemplares.Where(x => x.Status == LivroExemplarStatusEnum.Emprestado && x.Id == item.ExemplarId).FirstOrDefault();
+                    if (exemplar != null)
+                    {
+                        exemplar.Status = LivroExemplarStatusEnum.Disponivel;
 
-                    db.Entry(exemplar).State = EntityState.Modified;
-                    db.SaveChanges();
+                        db.Entry(exemplar).State = EntityState.Modified;
+                        db.SaveChanges();
 
 
-                    EmprestimoItens emprestimoItem = db.EmprestimoItens.Find(item.ExemplarId);
-                    emprestimoItem.Status = LivroExemplarStatusEnum.Devolvido;
-                    emprestimoItem.DataDevolucao = DateTime.Now;
-                    emprestimoItem.ColaboradorIdDevolucao = sessao.UsuarioId();
+                        EmprestimoItens emprestimoItem = db.EmprestimoItens.Find(item.ExemplarId);
+                        emprestimoItem.Status = LivroExemplarStatusEnum.Devolvido;
+                        emprestimoItem.DataDevolucao = DateTime.Now;
+                        emprestimoItem.UsuarioId = sessao.UsuarioId();
+                        emprestimoItem.ColaboradorIdDevolucao = sessao.UsuarioId();
 
-                    db.Entry(emprestimoItem).State = EntityState.Modified;
-                    db.SaveChanges();
+                        db.Entry(emprestimoItem).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            mensagem = "Livro nao pode ser devolvido"
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+
                 }
                 return Json(new
                 {

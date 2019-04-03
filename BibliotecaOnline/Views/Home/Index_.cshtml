@@ -16,7 +16,102 @@
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <script src="~/Scripts/adminlte/components/jquery/dist/jquery.min.js"></script>
+    <script src="~/Scripts/adminlte/components/select2/dist/js/select2.min.js"></script>
+    <script src="~/Scripts/adminlte/components/select2/dist/js/i18n/pt-BR.js"></script>
+    <link href="~/Scripts/adminlte/components/select2/dist/css/select2.min.css" rel="stylesheet" />
 
+    <style>
+        .div_ {
+            overflow: auto !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+
+        .select2 {
+            width: 100% !important;
+        }
+    </style>
+
+    <script>
+    $(document).ready(function () {
+        $('.select2').select2({
+            width: '100%',
+            placeholder: "Pesquise por título, autor, ano, código de barra...",
+            allowClear: true
+        });
+
+        $('#Pesquisa').on('select2:select', function (evt) {
+            ResultadoPesquisa($("#Pesquisa").val());
+        });
+
+
+     $("#Pesquisa").select2({
+                    ajax: {
+                       url: '@Url.Action("AutoCompletePesquisa", "Home")',
+                        dataType: 'json',
+                        type: 'POST',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                pesquisa: params.term,
+                            };
+                        },
+                        processResults: function (data, search) {
+                            return {
+                                results: $.map(data, function (item) {
+                                  return {
+                                      id: item.Id ,
+                                      text: item.Nome,
+                                      value: true
+                                  }
+                               }),
+                           };
+                        },
+                        cache: true
+                    },
+                    templateResult: function (item) {
+                      if (item.loading) return item.text;
+                      return item.text;
+                    },
+                    escapeMarkup: function (markup) { return markup; },
+                    minimumInputLength: 3
+        });
+
+        function ResultadoPesquisa(pesquisa) {
+             $.ajax({
+                        url: '@Url.Action("ResultadoPesquisa", "Home")',
+                        dataType: 'json',
+                        type: "POST",
+                 cache: false,
+                 data: { livroId: pesquisa},
+                 success: function (data) {
+                     $("#table tbody tr").remove();
+                     for (x = 0; x < data.resultado.length; x++) {
+                         var tr = $('<tr/>');
+                         tr.append("<td>" + data.resultado[x].Titulo + "</td>");
+                         tr.append("<td>" + data.resultado[x].Edicao + "</td>");
+                         tr.append("<td>" + data.resultado[x].Ano + "</td>");
+                         tr.append("<td>" + data.resultado[x].Idioma + "</td>");
+                         tr.append("<td>" + data.resultado[x].Autor + "</td>");
+                         tr.append("<td>" + data.resultado[x].Editora + "</td>");
+                         tr.append("<td>" + data.resultado[x].Campus + "</td>");
+                         tr.append("<td>" + data.resultado[x].Setor + "</td>");
+                         tr.append("<td>" + data.resultado[x].Estante + "</td>");
+                         tr.append("<td>" + data.resultado[x].Quantidade + "</td>");
+                         $("#table tbody").append(tr);
+                     }
+                        }
+                    });
+        }
+    });
+
+    </script>
 </head>
 <body class="hold-transition skin-blue fixed sidebar-mini">
     <div class="wrapper">
@@ -63,65 +158,63 @@
                     </button>
                 </div>
             </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="box box-primary">
-                        <div class="box-header">
-                            <h3 class="box-title">Pesquisar no acervo</h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="form-group">
-                                <form method="post">
-                                    <div class="input-group">
-                                        <input type="text" name="ConsultaExemplar" class="form-control" placeholder="Pesquise por título, autor, ano, código de barra...">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-primary">Pesquisar</button>
-
-                                        </div>
+            <section class="content-header">
+                <h1>
+                    <br />
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i>Pesquisa</a></li>
+                </ol>
+            </section>
+            <section class="content">
+                <div class="">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Pesquisar no acervo</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <select id="Pesquisa" name="Pesquisa" class="form-control select2"></select>
                                     </div>
-                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="box box-primary">
+                                <div class="box-header">
+                                    <h3 class="box-title">Resultados</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <table id="table" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Titulo</th>
+                                                    <th>Edicao</th>
+                                                    <th>Ano</th>
+                                                    <th>Idioma</th>
+                                                    <th>Autor</th>
+                                                    <th>Editora</th>
+                                                    <th>Campus</th>
+                                                    <th>Setor</th>
+                                                    <th>Estante</th>
+                                                    <th>Disponivel</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="box-body">
-                <div class="row">
-                    <div class="box box-primary">
-                        <div class="box-header">
-                            <h3 class="box-title">Resultados</h3>
-                        </div>
-                        <div class="box-body">
-                            <div class="form-group">
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Titulo + Edicao + Editora + Idioma+ Ano + Autor</th>
-                                            <th>Setor</th>
-                                            <th>Estante</th>
-                                            <th>Campus</th>
-                                            <th>Quanitdade</th>
-                                            <th>Disponivel</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <tr>
-                                            <td>Titulo + Edicao + Editora + Idioma+ Ano + Autor</td>
-                                            <td>Setor</td>
-                                            <td>Estante</td>
-                                            <td>Campus</td>
-                                            <td>Quanitdade</td>
-                                            <td>Disponivel</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </section>
         </div>
     </section>
     @Scripts.Render("~/bundles/jquery")

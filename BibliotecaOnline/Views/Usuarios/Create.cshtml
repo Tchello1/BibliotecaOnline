@@ -28,6 +28,29 @@
         $("#UF").change(function () {
             listaCidade($(this).val());
         });
+
+        $("#cadastrar").click(function () {
+            VerificaUsuario($("#Matricula").val());
+        });
+
+        function VerificaUsuario(matricula) {
+             $.ajax({
+                        url: '@Url.Action("VerificaUsuario", "Usuarios")',
+                        dataType: 'json',
+                        type: "POST",
+                        cache: false,
+                 data: { matricula: matricula },
+                        success: function (data) {
+                            if (data.mensagem == "ok") {
+                                var delay = 1000;
+                                setTimeout(function () { window.location = '/Usuarios/Index/'; }, delay);
+                            }
+                            else {
+                                alert(data.mensagem);
+                            }
+                        }
+                    });
+        }
     });
     //chamada ajax para a Action ListaCidade
     //passando como parâmetro a Estado selecionado
@@ -112,7 +135,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-primary pull-right">Cadastrar</button>
+                            <button id="cadastrar" type="button" class="btn btn-primary pull-right">Cadastrar</button>
                             <a href="@Url.Action("Index", "Usuarios")" class="btn btn-default">Voltar</a>
                         </div>
                     }
