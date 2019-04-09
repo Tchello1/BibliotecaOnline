@@ -61,12 +61,12 @@ namespace BibliotecaOnline.Controllers
                                                              Editora = l.Editora,
                                                              Autor = l.Autor,
                                                              DataEmprestimo = x.DataEmprestimo,
+                                                             DataPrevisao = x.DataLimite,
                                                              DataDevolucao = x.DataDevolucao,
                                                              Status = x.Status,
                                                              Usuario = u.Nome,
                                                              Matricula = u.Matricula
                                                          }).ToList();
-
 
             return View(emprestimo);
         }
@@ -95,7 +95,7 @@ namespace BibliotecaOnline.Controllers
 
                 EmprestimoItens itens = new EmprestimoItens();
 
-                DateTime DataLimite = DateTime.Now.AddDays(5);
+                DateTime DataLimite = DateTime.Now.AddDays(15);
 
                 foreach (EmprestimoItens item in exemplars)
                 {

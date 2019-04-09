@@ -41,16 +41,16 @@
                                             @Html.DisplayNameFor(model => model.Edicao)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Autor)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Editora)
-                                        </th>
-                                        <th>
                                             @Html.DisplayNameFor(model => model.Ano)
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.Idioma)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Autor)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Editora)
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.ISBN)
@@ -65,10 +65,7 @@
                                                 @Html.DisplayFor(modelItem => item.Titulo)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Autor)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Editora)
+                                                @Html.DisplayFor(modelItem => item.Edicao)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Ano)
@@ -77,10 +74,13 @@
                                                 @Html.DisplayFor(modelItem => item.Idioma)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.ISBN)
+                                                @Html.DisplayFor(modelItem => item.Autor)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Edicao)
+                                                @Html.DisplayFor(modelItem => item.Editora)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ISBN)
                                             </td>
                                             <td>
                                                 @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
