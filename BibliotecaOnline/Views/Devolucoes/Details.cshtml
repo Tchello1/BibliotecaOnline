@@ -87,6 +87,9 @@
                                             @Html.DisplayNameFor(model => model.Autor)
                                         </th>
                                         <th>
+                                            @Html.DisplayNameFor(model => model.Renovacao)
+                                        </th>
+                                        <th>
                                             @Html.DisplayNameFor(model => model.DataPrevisao)
                                         </th>
                                         <th>
@@ -98,32 +101,35 @@
                                     </tr>
                                     @foreach (var item in Model)
                                     {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.CodigoDeBarras)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Titulo)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Edicao)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Editora)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Autor)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => item.DataPrevisao)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => item.DataDevolucao)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(model => item.Status)
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CodigoDeBarras)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Titulo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Edicao)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Editora)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Autor)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.Renovacao)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.DataPrevisao)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.DataDevolucao)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.Status)
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>

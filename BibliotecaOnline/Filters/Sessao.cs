@@ -91,19 +91,24 @@ namespace BibliotecaOnline.Filters
         }
         public int UsuarioId()
         {
+            VerificaSessao();
             return Convert.ToInt32(Session["Login_Id"]);
         }
         public string UsuarioLogin()
         {
+            VerificaSessao();
             return Session["Login_Matricula"].ToString();
         }
         public string UsuarioNome()
         {
+            VerificaSessao();
             return Session["Login_Nome"].ToString();
         }
         public string UsuarioTipo()
         {
+            VerificaSessao();
             return Session["Login_Tipo"].ToString();
+
         }
         public bool VerificaSessao()
         {

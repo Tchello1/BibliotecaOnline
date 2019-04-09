@@ -99,6 +99,7 @@ namespace BibliotecaOnline.Controllers
                                                             Editora = l.Editora,
                                                             Autor = l.Autor,
                                                             DataEmprestimo = x.DataEmprestimo,
+                                                            Renovacao = x.DataRenovacao,
                                                             DataPrevisao = x.DataLimite,
                                                             DataDevolucao = x.DataDevolucao,
                                                             Status = x.Status,
@@ -134,22 +135,25 @@ namespace BibliotecaOnline.Controllers
                     {
                         EmprestimoItens emprestimoItem = db.EmprestimoItens.Where(x => x.ExemplarId == item.ExemplarId && x.Status == LivroExemplarStatusEnum.Emprestado).FirstOrDefault();
 
-                        emprestimoId = emprestimoItem.EmprestimoId;
-
-                        if (emprestimoItem.ExemplarId == item.ExemplarId && emprestimoItem.Status == LivroExemplarStatusEnum.Emprestado)
+                        if (emprestimoItem != null)
                         {
-                            emprestimoItem.Status = LivroExemplarStatusEnum.Devolvido;
-                            emprestimoItem.DataDevolucao = DateTime.Now;
-                            emprestimoItem.UsuarioId = emprestimoItem.UsuarioId;
-                            emprestimoItem.ColaboradorIdDevolucao = sessao.UsuarioId();
+                            emprestimoId = emprestimoItem.EmprestimoId;
 
-                            db.Entry(emprestimoItem).State = EntityState.Modified;
-                            db.SaveChanges();
+                            if (emprestimoItem.ExemplarId == item.ExemplarId && emprestimoItem.Status == LivroExemplarStatusEnum.Emprestado)
+                            {
+                                emprestimoItem.Status = LivroExemplarStatusEnum.Devolvido;
+                                emprestimoItem.DataDevolucao = DateTime.Now;
+                                emprestimoItem.UsuarioId = emprestimoItem.UsuarioId;
+                                emprestimoItem.ColaboradorIdDevolucao = sessao.UsuarioId();
 
-                            exemplar.Status = LivroExemplarStatusEnum.Disponivel;
+                                db.Entry(emprestimoItem).State = EntityState.Modified;
+                                db.SaveChanges();
 
-                            db.Entry(exemplar).State = EntityState.Modified;
-                            db.SaveChanges();
+                                exemplar.Status = LivroExemplarStatusEnum.Disponivel;
+
+                                db.Entry(exemplar).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
                         }
                     }
                     else

@@ -94,7 +94,7 @@
                     <!-- /.box-header -->
                     @using (Html.BeginForm("Create", "Usuarios", FormMethod.Post, new { @id = "form" }))
                     {
-                        @Html.AntiForgeryToken()
+       
                         <div class="box-body">
                             <hr />
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })

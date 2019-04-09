@@ -31,7 +31,10 @@
                 <div class="box-header with-border">
                     <h3 class="box-title">Lista de empréstimo</h3>
                     <div class="pull-right">
-                        <a href="@Url.Action("Create", "Emprestimos")" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
+                        @if (Session["Login_Tipo"].ToString() != "Usuario")
+                        {
+                            <a href="@Url.Action("Create", "Emprestimos")" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
+                        }
                     </div>
                 </div>
                 <div class="div_">

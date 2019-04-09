@@ -21,20 +21,42 @@ namespace BibliotecaOnline.Controllers
         // GET: Emprestimos
         public ActionResult Index()
         {
-            List<EmprestimosViewModel> emprestimo = (from x in db.Emprestimos
-                                                     join c in db.Pessoas on x.ColaboradorId equals c.Id
-                                                     join ci in db.Cidades on c.Cidade equals ci.Codigo
-                                                     from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
-                                                     where c.Cidade == u.Cidade
-                                                     select new EmprestimosViewModel
-                                                     {
-                                                         Id = x.Id,
-                                                         Usuario = u.Nome,
-                                                         Campus = ci.Nome + " - " + ci.UF,
-                                                         Emprestimo = x.DataEmprestimo,
-                                                         Colaborador = c.Nome
-                                                     }).ToList();
+            string tipoUsuario = sessao.UsuarioTipo();
+            int usuarioId = sessao.UsuarioId();
 
+            List<EmprestimosViewModel> emprestimo;
+            if (tipoUsuario == "Usuario")
+            {
+                emprestimo = (from x in db.Emprestimos
+                              join c in db.Pessoas on x.ColaboradorId equals c.Id
+                              join ci in db.Cidades on c.Cidade equals ci.Codigo
+                              from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
+                              where x.UsuarioId == usuarioId
+                              select new EmprestimosViewModel
+                              {
+                                  Id = x.Id,
+                                  Usuario = u.Nome,
+                                  Campus = ci.Nome + " - " + ci.UF,
+                                  Emprestimo = x.DataEmprestimo,
+                                  Colaborador = c.Nome
+                              }).ToList();
+            }
+            else
+            {
+                emprestimo = (from x in db.Emprestimos
+                              join c in db.Pessoas on x.ColaboradorId equals c.Id
+                              join ci in db.Cidades on c.Cidade equals ci.Codigo
+                              from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
+                              where c.Cidade == u.Cidade
+                              select new EmprestimosViewModel
+                              {
+                                  Id = x.Id,
+                                  Usuario = u.Nome,
+                                  Campus = ci.Nome + " - " + ci.UF,
+                                  Emprestimo = x.DataEmprestimo,
+                                  Colaborador = c.Nome
+                              }).ToList();
+            }
 
             return View(emprestimo);
         }
@@ -48,21 +70,24 @@ namespace BibliotecaOnline.Controllers
             }
 
             List<EmprestimoItensViewModel> emprestimo = (from x in db.EmprestimoItens
+                                                         join em in db.Emprestimos on x.EmprestimoId equals em.Id
                                                          join l in db.Livros on x.LivroId equals l.Id
                                                          join e in db.Exemplares on x.ExemplarId equals e.Id
                                                          join u in db.Pessoas on x.UsuarioId equals u.Id
                                                          where x.EmprestimoId == id
                                                          select new EmprestimoItensViewModel
                                                          {
+                                                             EmprestimoId = x.EmprestimoId,
                                                              CodigoDeBarras = e.CodigoDeBarras,
                                                              Titulo = l.Titulo,
                                                              Edicao = l.Edicao,
                                                              Idioma = l.Idioma,
                                                              Editora = l.Editora,
                                                              Autor = l.Autor,
-                                                             DataEmprestimo = x.DataEmprestimo,
+                                                             DataEmprestimo = em.DataEmprestimo,
                                                              DataPrevisao = x.DataLimite,
                                                              DataDevolucao = x.DataDevolucao,
+                                                             Renovacao = x.DataRenovacao,
                                                              Status = x.Status,
                                                              Usuario = u.Nome,
                                                              Matricula = u.Matricula
@@ -273,6 +298,25 @@ namespace BibliotecaOnline.Controllers
             {
                 mensagem = _mensagem
             }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult Renovar(int id, string codigoDeBarras)
+        {
+            if (ModelState.IsValid)
+            {
+                EmprestimoItens item = db.EmprestimoItens.Where(x => x.EmprestimoId == id && x.Status != LivroExemplarStatusEnum.Devolvido).FirstOrDefault();
+
+                if (item != null)
+                {
+                    item.DataRenovacao = DateTime.Now;
+                    item.DataLimite = DateTime.Now.AddDays(15);
+                    item.Status = LivroExemplarStatusEnum.Renovado;
+                    db.Entry(item).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Details", "Emprestimos", new { id = id });
         }
 
         protected override void Dispose(bool disposing)

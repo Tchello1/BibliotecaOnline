@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using BibliotecaOnline.Filters;
+using BibliotecaOnline.Models;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using BibliotecaOnline.Filters;
-using BibliotecaOnline.Models;
 
 namespace BibliotecaOnline.Controllers
 {
@@ -40,7 +36,7 @@ namespace BibliotecaOnline.Controllers
         // GET: Livros/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new Livro());
         }
 
         // POST: Livros/Create
