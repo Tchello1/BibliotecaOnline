@@ -21,11 +21,12 @@ namespace BibliotecaOnline.Controllers
         public ActionResult Index()
         {
             List<EmprestimosViewModel> devolucao = (from x in db.Emprestimos
-                                                    join i in db.EmprestimoItens on x.Id equals i.EmprestimoId
-                                                    join c in db.Pessoas on i.ColaboradorIdDevolucao equals c.Id
-                                                    join ci in db.Cidades on c.Cidade equals ci.Codigo
+                                                    from i in db.EmprestimoItens.Where(i => i.EmprestimoId == x.Id).DefaultIfEmpty()
+                                                    from c in db.Pessoas.Where(c => c.Id == i.ColaboradorIdDevolucao).DefaultIfEmpty()
+                                                    from ci in db.Cidades.Where(ci => ci.Codigo == c.Cidade).DefaultIfEmpty()
                                                     from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
                                                     where c.Cidade == u.Cidade && i.Status == LivroExemplarStatusEnum.Devolvido
+
                                                     select new EmprestimosViewModel
                                                     {
                                                         Id = x.Id,
@@ -35,7 +36,45 @@ namespace BibliotecaOnline.Controllers
                                                         Devolucao = i.DataDevolucao,
                                                         Colaborador = c.Nome
                                                     }).ToList();
-            return View(devolucao);
+
+
+            //var teste = (from x in db.Emprestimos
+            //               join i in db.EmprestimoItens on x.Id equals i.EmprestimoId
+            //             //join c in db.Pessoas on i.ColaboradorIdDevolucao equals c.Id
+            //             from c in db.Pessoas.Where(c => c.Id == i.ColaboradorIdDevolucao).DefaultIfEmpty()
+            //             join ci in db.Cidades on c.Cidade equals ci.Codigo
+            //               from u in db.Pessoas.Where(u => u.Id == x.UsuarioId).DefaultIfEmpty()
+
+            //             where c.Cidade == u.Cidade && i.Status == LivroExemplarStatusEnum.Devolvido
+            //               select new EmprestimosViewModel
+            //               {
+            //                   Id = x.Id,
+            //                   Usuario = u.Nome,
+            //                   Campus = ci.Nome + " - " + ci.UF,
+            //                   Emprestimo = x.DataEmprestimo,
+            //                   Devolucao = i.DataDevolucao,
+            //                   Colaborador = c.Nome
+            //               });
+            IEnumerable<EmprestimosViewModel> devolucao_ = devolucao.Distinct(new DevolucaoDistinctComparer());
+            return View(devolucao_);
+        }
+
+        internal class DevolucaoDistinctComparer : IEqualityComparer<EmprestimosViewModel>
+        {
+            public bool Equals(EmprestimosViewModel x, EmprestimosViewModel y)
+            {
+                if (string.Equals(x.Id.ToString(), y.Id.ToString(), StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+            public int GetHashCode(EmprestimosViewModel obj)
+            {
+                return obj.Id.GetHashCode();
+            }
         }
 
         // GET: Devolucoes/Details/5
@@ -45,11 +84,12 @@ namespace BibliotecaOnline.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             List<EmprestimoItensViewModel> devolucao = (from x in db.EmprestimoItens
                                                         join l in db.Livros on x.LivroId equals l.Id
                                                         join e in db.Exemplares on x.ExemplarId equals e.Id
                                                         join u in db.Pessoas on x.UsuarioId equals u.Id
-                                                        where x.EmprestimoId == id && x.Status == Models.Enum.LivroExemplarStatusEnum.Devolvido
+                                                        where x.EmprestimoId == id
                                                         select new EmprestimoItensViewModel
                                                         {
                                                             CodigoDeBarras = e.CodigoDeBarras,
@@ -59,6 +99,8 @@ namespace BibliotecaOnline.Controllers
                                                             Editora = l.Editora,
                                                             Autor = l.Autor,
                                                             DataEmprestimo = x.DataEmprestimo,
+                                                            Renovacao = x.DataRenovacao,
+                                                            DataPrevisao = x.DataLimite,
                                                             DataDevolucao = x.DataDevolucao,
                                                             Status = x.Status,
                                                             Usuario = u.Nome,
@@ -83,23 +125,56 @@ namespace BibliotecaOnline.Controllers
         {
             if (ModelState.IsValid)
             {
+                int countItens = 0;
+                int emprestimoId = 0;
                 foreach (EmprestimoItens item in exemplars)
                 {
-                    LivroExemplar exemplar = db.Exemplares.Find(item.ExemplarId);
-                    exemplar.Status = LivroExemplarStatusEnum.Disponivel;
+                    LivroExemplar exemplar = db.Exemplares.Where(x => x.Status == LivroExemplarStatusEnum.Emprestado && x.Id == item.ExemplarId).FirstOrDefault();
 
-                    db.Entry(exemplar).State = EntityState.Modified;
-                    db.SaveChanges();
+                    if (exemplar != null)
+                    {
+                        EmprestimoItens emprestimoItem = db.EmprestimoItens.Where(x => x.ExemplarId == item.ExemplarId && x.Status == LivroExemplarStatusEnum.Emprestado).FirstOrDefault();
 
+                        if (emprestimoItem != null)
+                        {
+                            emprestimoId = emprestimoItem.EmprestimoId;
 
-                    EmprestimoItens emprestimoItem = db.EmprestimoItens.Find(item.ExemplarId);
-                    emprestimoItem.Status = LivroExemplarStatusEnum.Devolvido;
-                    emprestimoItem.DataDevolucao = DateTime.Now;
-                    emprestimoItem.ColaboradorIdDevolucao = sessao.UsuarioId();
+                            if (emprestimoItem.ExemplarId == item.ExemplarId && emprestimoItem.Status == LivroExemplarStatusEnum.Emprestado)
+                            {
+                                emprestimoItem.Status = LivroExemplarStatusEnum.Devolvido;
+                                emprestimoItem.DataDevolucao = DateTime.Now;
+                                emprestimoItem.UsuarioId = emprestimoItem.UsuarioId;
+                                emprestimoItem.ColaboradorIdDevolucao = sessao.UsuarioId();
 
-                    db.Entry(emprestimoItem).State = EntityState.Modified;
-                    db.SaveChanges();
+                                db.Entry(emprestimoItem).State = EntityState.Modified;
+                                db.SaveChanges();
+
+                                exemplar.Status = LivroExemplarStatusEnum.Disponivel;
+
+                                db.Entry(exemplar).State = EntityState.Modified;
+                                db.SaveChanges();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        return Json(new
+                        {
+                            mensagem = "Livro nao pode ser devolvido"
+                        }, JsonRequestBehavior.AllowGet);
+                    }
+
+                    countItens = db.EmprestimoItens.Where(x => x.Status == LivroExemplarStatusEnum.Emprestado && x.EmprestimoId == emprestimoId).Count();
+
+                    if (countItens == 0)
+                    {
+                        Emprestimo emprestimo = db.Emprestimos.Where(x => x.Id == emprestimoId).FirstOrDefault();
+                        emprestimo.Status = EmprestimosStatusEnum.Finalizado;
+                        db.Entry(emprestimo).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
                 }
+
                 return Json(new
                 {
                     mensagem = "ok"
@@ -116,14 +191,13 @@ namespace BibliotecaOnline.Controllers
         {
             if (!string.IsNullOrEmpty(codigo) && !string.IsNullOrWhiteSpace(codigo))
             {
-                LivroExemplar result = db.Exemplares.Where(x => x.CodigoDeBarras == codigo.Replace(" ", "")).Include(x => x.Livros).FirstOrDefault();
+                LivroExemplar result = db.Exemplares.Where(x => x.CodigoDeBarras == codigo.Replace(" ", "") && x.Status == LivroExemplarStatusEnum.Emprestado).Include(x => x.Livros).FirstOrDefault();
 
-                EmprestimoItens emprestimo = db.EmprestimoItens.Where(x => x.LivroId == result.LivroId && x.Exemplares.Status == LivroExemplarStatusEnum.Emprestado).FirstOrDefault();
                 string _mensagem = "ok";
 
                 if (result == null)
                 {
-                    _mensagem = "Codigo de barras invalido ou produto nao existe";
+                    _mensagem = "Codigo de barras: " + codigo + " nao pode ser devolvido, pois nao foi emprestado";
                     return Json(new
                     {
                         mensagem = _mensagem

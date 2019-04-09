@@ -12,6 +12,8 @@ namespace BibliotecaOnline.Models.ViewModel
         public DateTime Emprestimo { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
         public DateTime? Devolucao { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
+        public DateTime? Renovacao { get; set; }
         public string Colaborador { get; set; }
     }
 }

@@ -81,7 +81,8 @@
         });
 
 
-         function VerificarCodigoDeBarras() {
+        function VerificarCodigoDeBarras() {
+            codigoBarras = $("#CodigoDeBarras").val();
              $.ajax({
                         url: '@Url.Action("PesquisaCodigoDeBarras", "Devolucoes")',
                         dataType: 'json',
@@ -122,6 +123,9 @@
                         var delay = 1000;
                         setTimeout(function () { window.location = '/Devolucoes/Index/'; }, delay);
                     }
+                    else {
+                        alert(data.mensagem);
+                    }
            }
         });
         }
@@ -129,7 +133,6 @@
 </script>
 @using (Html.BeginForm("Create", "Devolucoes", FormMethod.Post, new { @id = "form" }))
 {
-    @Html.AntiForgeryToken()
     <div class="content-wrapper">
         <section class="content-header">
             <h1>

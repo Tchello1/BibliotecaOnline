@@ -5,6 +5,7 @@
         Disponivel = 0,
         Emprestado = 1,
         Reservado = 2,
-        Devolvido = 4
+        Devolvido = 4,
+        Renovado = 5
     }
 }

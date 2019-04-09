@@ -6,6 +6,7 @@ namespace BibliotecaOnline.Models.ViewModel
 {
     public class EmprestimoItensViewModel
     {
+        public int EmprestimoId { get; set; }
         public string CodigoDeBarras { get; set; }
         public string Titulo { get; set; }
         public string Edicao { get; set; }
@@ -19,8 +20,17 @@ namespace BibliotecaOnline.Models.ViewModel
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
         public DateTime DataEmprestimo { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime? DataPrevisao { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataDevolucao { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        public DateTime? Renovacao { get; set; }
+
+        public int? diasRestante { get; set; }
+
         public LivroExemplarStatusEnum Status { get; set; }
     }
 }

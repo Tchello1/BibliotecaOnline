@@ -91,19 +91,24 @@ namespace BibliotecaOnline.Filters
         }
         public int UsuarioId()
         {
+            VerificaSessao();
             return Convert.ToInt32(Session["Login_Id"]);
         }
         public string UsuarioLogin()
         {
+            VerificaSessao();
             return Session["Login_Matricula"].ToString();
         }
         public string UsuarioNome()
         {
+            VerificaSessao();
             return Session["Login_Nome"].ToString();
         }
         public string UsuarioTipo()
         {
+            VerificaSessao();
             return Session["Login_Tipo"].ToString();
+
         }
         public bool VerificaSessao()
         {
@@ -125,6 +130,7 @@ namespace BibliotecaOnline.Filters
                         Session["Login_Id"] = cook["Login_Id"];
                         Session["Login_Nome"] = cook["Login_Nome"];
                         Session["Login_Matricula"] = cook["Login_Matricula"];
+                        Session["Login_Tipo"] = cook["Login_Tipo"];
 
                         System.Web.HttpContext.Current.Response.AppendCookie(cook);
                         flag = true;

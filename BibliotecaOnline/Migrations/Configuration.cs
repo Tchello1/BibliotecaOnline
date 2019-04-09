@@ -13,7 +13,8 @@ namespace BibliotecaOnline.Migrations
         protected override void Seed(Context context)
         {
             context.Pessoas.AddOrUpdate(x => x.Id,
-             new Pessoa { Matricula = "201412316039", Nome = "Jamil Zazu", Email = "jamillzazu@hotmail.com", Senha = "1234", Status = Models.Enum.PessoaStatusEnum.Ativo, Tipo = Models.Enum.TipoPessoaEnum.Usuario, UF = "MT", Cidade = "5103403" },
+             new Pessoa { Matricula = "99999999", Nome = "Adminisstrator", Email = "admin@hotmail.com", Senha = "1234", Status = Models.Enum.PessoaStatusEnum.Ativo, Tipo = Models.Enum.TipoPessoaEnum.Administrador, UF = "MT", Cidade = "5103403" },
+              new Pessoa { Matricula = "201412316039", Nome = "Jamil Zazu", Email = "jamillzazu@hotmail.com", Senha = "1234", Status = Models.Enum.PessoaStatusEnum.Ativo, Tipo = Models.Enum.TipoPessoaEnum.Usuario, UF = "MT", Cidade = "5103403" },
              new Pessoa { Matricula = "1234", Nome = "Colaborador", Email = "colaborador@hotmail.com", Senha = "1234", Status = Models.Enum.PessoaStatusEnum.Ativo, Tipo = Models.Enum.TipoPessoaEnum.Colaborador, UF = "MT", Cidade = "5103403" });
 
             context.SaveChanges();
